@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../user/user.service';
 import { CreateUserDto } from '../user/dto/create-user.dto';
+import { verify } from 'src/utils/crypto';
 
 @Injectable()
 export class AuthService {
@@ -11,7 +12,8 @@ export class AuthService {
   async validateUser(username: string, password: string) {
     const user = await this.userService.findByUsername(username);
 
-    if (user && user.password === password) {
+    const verification = await verify(user.password, password);
+    if (user && verification) {
       delete user.password;
       return user;
     }
