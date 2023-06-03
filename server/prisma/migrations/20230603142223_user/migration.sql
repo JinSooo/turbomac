@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE `User` MODIFY `avator` VARCHAR(191) NOT NULL DEFAULT '',
+    MODIFY `role` VARCHAR(191) NOT NULL DEFAULT 'user';
