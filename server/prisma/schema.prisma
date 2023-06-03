@@ -9,3 +9,24 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id       String    @id @default(uuid())
+  username String    @default("visitor")
+  password String
+  avator   String
+  role     String
+  Message  Message[]
+  createAt DateTime  @default(now())
+}
+
+model Message {
+  id       Int      @id @default(autoincrement())
+  user     User     @relation(fields: [userId], references: [id])
+  userId   String
+  roomId   String
+  type     String   @default("text")
+  size     String   @default("")
+  content  String   @db.Text
+  createAt DateTime @default(now())
+}
