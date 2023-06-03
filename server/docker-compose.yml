@@ -1,0 +1,15 @@
+version: '3'
+services:
+  mysql:
+    restart: always
+    image: mysql
+    container_name: mysql-turbomac
+    volumes:
+      - /opt/mysql/conf:/etc/mysql/conf.d
+      - /opt/mysql/logs:/logs
+      - /opt/mysql/data:/var/lib/mysql
+    environment:
+      - "MYSQL_ROOT_PASSWORD=root"
+    ports:
+      # 宿主机：容器
+      - 3306:3306
