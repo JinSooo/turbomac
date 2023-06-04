@@ -1,8 +1,9 @@
-interface Menu {
-	name: string
-}
+import { MenuItem } from '@/types'
 
-const contextMenuConfig: Menu[][] = [
+/**
+ * 右击菜单
+ */
+const contextMenuConfig: MenuItem[][] = [
 	[
 		{
 			name: 'New Folder',

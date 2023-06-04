@@ -1,6 +1,7 @@
 import '@/styles/index.css'
 import { Metadata } from 'next'
 import GlobalWallpaper from './GlobalWallpaper'
+import TopBar from '@/components/topbar/Topbar'
 
 export const metadata: Metadata = {
 	title: 'TurboMac',
@@ -12,7 +13,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 		<html lang="en">
 			<link rel="icon" href="/apple.svg" />
 			<body>
-				<GlobalWallpaper>{children}</GlobalWallpaper>
+				<GlobalWallpaper>
+          <TopBar />
+          {children}
+        </GlobalWallpaper>
 			</body>
 		</html>
 	)

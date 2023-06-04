@@ -1,4 +1,4 @@
-import contextMenuConfig from '@/config/contextMenuConfig'
+import appleIconMenuConfig from '@/config/appleIconMenuConfig'
 import { useRef } from 'react'
 import { useClickAway } from 'ahooks'
 import useAlertStore, { AlertType } from '@/stores/alert'
@@ -7,16 +7,12 @@ import Menu from './Menu'
 
 interface Props {
 	setMenuAway: () => void
-	pagePosition: {
-		pageX: number
-		pageY: number
-	}
 }
 
 /**
- * 右击菜单
+ * 苹果图标菜单
  */
-const ContextMenu = ({ pagePosition, setMenuAway }: Props) => {
+const AppleIconMenu = ({ setMenuAway }: Props) => {
 	const [alert] = useAlertStore(state => [state.alert], shallow)
 
 	const contextMenuRef = useRef<HTMLDivElement>(null)
@@ -29,14 +25,13 @@ const ContextMenu = ({ pagePosition, setMenuAway }: Props) => {
 
 	return (
 		<div
-			className="absolute text-black rounded-md font-md h-70 w-52 bg-white/70"
-			style={{ left: `${pagePosition.pageX}px`, top: `${pagePosition.pageY}px` }}
+			className="absolute text-black rounded-md font-md h-70 w-52 bg-gray-400/90 top-9 left-1"
 			onClick={() => setMenuAway()}
 			ref={contextMenuRef}
 		>
-			<Menu menuConfig={contextMenuConfig} handleMenuItem={handleMenuItem} />
+			<Menu menuConfig={appleIconMenuConfig} handleMenuItem={handleMenuItem} />
 		</div>
 	)
 }
 
-export default ContextMenu
+export default AppleIconMenu

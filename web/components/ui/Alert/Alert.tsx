@@ -6,6 +6,9 @@ import { getClass, getSVG } from './util'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useCallback, useEffect } from 'react'
 
+/**
+ * 消息提示框
+ */
 const Alert = () => {
 	const [isShow, type, content, duration, setShow] = useAlertStore(
 		state => [state.isShow, state.type, state.content, state.duration, state.setShow],
