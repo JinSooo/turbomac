@@ -1,3 +1,5 @@
+import GlobalWallpaper from './GlobalWallpaper'
+
 export default function Home() {
-	return <main>Turbo</main>
+	return <div>Turbo</div>
 }
