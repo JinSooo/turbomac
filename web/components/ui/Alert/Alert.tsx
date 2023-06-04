@@ -4,7 +4,7 @@ import useAlertStore from '@/stores/alert'
 import { shallow } from 'zustand/shallow'
 import { getClass, getSVG } from './util'
 import { AnimatePresence, motion } from 'framer-motion'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect } from 'react'
 
 const Alert = () => {
 	const [isShow, type, content, duration, setShow] = useAlertStore(
@@ -25,14 +25,14 @@ const Alert = () => {
 	)
 
 	// 定时关闭
-	useState(() => {
+	useEffect(() => {
 		const timer = setTimeout(() => {
 			setShow(false)
 		}, duration)
 		return () => {
 			clearTimeout(timer)
 		}
-	})
+	}, [])
 
 	return (
 		<AnimatePresence>
