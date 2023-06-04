@@ -15,10 +15,8 @@ const Alert = () => {
 	const renderAlert = useCallback(
 		() => (
 			<div className={`shadow-lg alert ${getClass(type)}`}>
-				<div>
-					{getSVG(type)}
-					<span>{content}</span>
-				</div>
+				{getSVG(type)}
+				<span>{content}</span>
 			</div>
 		),
 		[type, content],
