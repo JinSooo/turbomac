@@ -6,6 +6,6 @@
     @apply px-1 mx-1 rounded hover:bg-primary hover:text-white
   }
   .menuDivider {
-    @apply border-t mx-2 m-1 border-[#555555]
+    @apply border-t mx-2 m-1 border-[var(--contextmenu-divider)]
   }
 }

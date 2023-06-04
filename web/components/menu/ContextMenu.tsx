@@ -1,6 +1,8 @@
 import contextMenuConfig from '@/config/contextMenuConfig'
-import { useRef } from 'react'
+import { Fragment, useRef } from 'react'
 import { useClickAway } from 'ahooks'
+import useAlertStore, { AlertType } from '@/stores/alert'
+import { shallow } from 'zustand/shallow'
 
 interface Props {
 	setMenuAway: () => void
@@ -11,9 +13,15 @@ interface Props {
 }
 
 const ContextMenu = ({ pagePosition, setMenuAway }: Props) => {
+	const [alert] = useAlertStore(state => [state.alert], shallow)
+
 	const contextMenuRef = useRef<HTMLDivElement>(null)
 	// 点击元素外，关闭contextmenu
 	useClickAway(() => setMenuAway(), contextMenuRef)
+
+	const handleMenuItem = (content: string) => {
+		alert(AlertType.SUCCESS, content)
+	}
 
 	return (
 		<div
@@ -23,16 +31,16 @@ const ContextMenu = ({ pagePosition, setMenuAway }: Props) => {
 			ref={contextMenuRef}
 		>
 			<ul className="p-1">
-				{contextMenuConfig.map(submenu => {
+				{contextMenuConfig.map((submenu, index) => {
 					return (
-						<>
+						<Fragment key={index}>
 							{submenu.map(item => (
-								<li className="appleMenuItem" key={item.name}>
+								<li className="appleMenuItem" key={item.name} onClick={() => handleMenuItem(item.name)}>
 									{item.name}
 								</li>
 							))}
 							<div className="menuDivider"></div>
-						</>
+						</Fragment>
 					)
 				})}
 			</ul>

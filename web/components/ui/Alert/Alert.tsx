@@ -30,7 +30,7 @@ const Alert = () => {
 		return () => {
 			clearTimeout(timer)
 		}
-	}, [])
+	}, [isShow])
 
 	return (
 		<AnimatePresence>
