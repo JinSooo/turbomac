@@ -8,4 +8,8 @@
   .menuDivider {
     @apply border-t mx-2 m-1 border-[var(--contextmenu-divider)]
   }
+
+  .flex-center{
+    @apply flex justify-center items-center
+  }
 }

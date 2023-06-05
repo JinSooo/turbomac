@@ -10,7 +10,7 @@ import { shallow } from 'zustand/shallow'
 
 const GlobalWallpaper = ({ children }: { children: React.ReactNode }) => {
 	const [alert] = useAlertStore(state => [state.alert], shallow)
-	const [brightness] = useThemeStore(state => [state.brightness], shallow)
+	const [brightness, isDark] = useThemeStore(state => [state.brightness, state.isDark], shallow)
 
 	// 用于contextMenu
 	const wallpaperRef = useRef<HTMLDivElement>(null)
@@ -46,7 +46,7 @@ const GlobalWallpaper = ({ children }: { children: React.ReactNode }) => {
 		<div
 			className="relative flex flex-col w-full h-full overflow-hidden bg-center bg-cover"
 			style={{
-				backgroundImage: `url(${wallpapers.light})`, // 壁纸
+				backgroundImage: `url(${isDark ? wallpapers.dark : wallpapers.light})`, // 壁纸
 				filter: `brightness(${brightness * 0.7 + 50}%)`, // 亮度
 			}}
 			ref={wallpaperRef}

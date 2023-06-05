@@ -6,7 +6,10 @@ import Image from 'next/image'
 import TopBarItem from './TopbarItem'
 import useControlStore from '@/stores/control'
 import AppleIconMenu from '../menu/AppleIconMenu'
-import { ArrowRight, Wifi, WifiOff } from 'lucide-react'
+import { ArrowLeftRight, Wifi, WifiOff } from 'lucide-react'
+import Battery from './Battery'
+import { getColorByTheme, getFontColorByTheme } from '@/utils/theme'
+import ControlCenter from './controlCenter/ControlCenter'
 
 /**
  * 顶部栏
@@ -17,21 +20,10 @@ const TopBar = () => {
 		shallow,
 	)
 
-	const [
-		isWife,
-		setIsWifi,
-		showWifiMenu,
-		setShowWifiMenu,
-		showAppleIconMenu,
-		setShowAppleIconMenu,
-		showControlCenter,
-		setShowControlCenter,
-	] = useControlStore(
+	const [isWife, setIsWifi, showAppleIconMenu, setShowAppleIconMenu, showControlCenter, setShowControlCenter] = useControlStore(
 		state => [
 			state.isWife,
 			state.setIsWifi,
-			state.showWifiMenu,
-			state.setShowWifiMenu,
 			state.showAppleIconMenu,
 			state.setShowAppleIconMenu,
 			state.showControlCenter,
@@ -42,9 +34,9 @@ const TopBar = () => {
 
 	return (
 		<div
-			className={`w-full h-8 px-2 top-0 z-50 text-sm backdrop-blur-lg shadow transition select-none flex justify-between font-medium ${
-				isDark ? 'text-black bg-gray-100/30' : 'text-white bg-gray-500/20'
-			}`}
+			className={`w-full h-8 px-2 top-0 z-50 text-sm backdrop-blur-lg shadow transition select-none flex justify-between font-medium ${getFontColorByTheme(
+				isDark,
+			)}`}
 		>
 			{/* Apple Icon */}
 			<div
@@ -57,7 +49,7 @@ const TopBar = () => {
 							alt=""
 							width={30}
 							height={30}
-							src={`${isDark ? '/img/icons/apple-black.png' : '/img/icons/apple-white.png'}`}
+							src={`${isDark ? '/img/icons/apple-white.png' : '/img/icons/apple-black.png'}`}
 						/>
 					}
 				/>
@@ -67,24 +59,22 @@ const TopBar = () => {
 			<div className="flex-1"></div>
 			{/* right place */}
 			<div className="flex items-center justify-end h-full space-x-2">
-				<div className="relative">
-					<TopBarItem
-						icon={
-							isWife ? (
-								<Wifi size={16} color={`${isDark ? '#000' : '#fff'}`} />
-							) : (
-								<WifiOff size={16} color={`${isDark ? '#000' : '#fff'}`} />
-							)
-						}
-						toggle={() => setIsWifi(!isWife)}
-					/>
-				</div>
+				{/* WIFI */}
+				<TopBarItem
+					icon={
+						isWife ? <Wifi size={16} color={getColorByTheme(isDark)} /> : <WifiOff size={16} color={getColorByTheme(isDark)} />
+					}
+					toggle={() => setIsWifi(!isWife)}
+				/>
 				{/* Battery */}
+				<Battery />
+				{/* Control Center */}
 				<div className="relative">
 					<TopBarItem
-						icon={<ArrowRight size={16} color={`${isDark ? '#000' : '#fff'}`} />}
+						icon={<ArrowLeftRight size={16} color={getColorByTheme(isDark)} />}
 						toggle={() => setShowControlCenter(!showControlCenter)}
 					/>
+					{showControlCenter && <ControlCenter setMenuAway={() => setShowControlCenter(!showControlCenter)} />}
 				</div>
 			</div>
 		</div>
