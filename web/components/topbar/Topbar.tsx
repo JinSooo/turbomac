@@ -32,28 +32,24 @@ const TopBar = () => {
 		shallow,
 	)
 
+	// 样式抽离复用
+	const styles = {
+		appleIcon: isDark ? '/img/icons/apple-white.png' : '/img/icons/apple-black.png',
+		iconColor: getColorByTheme(isDark),
+		font: getFontColorByTheme(isDark),
+	}
+
 	return (
 		<div
-			className={`w-full h-8 px-2 top-0 z-50 text-sm backdrop-blur-lg shadow transition select-none flex justify-between font-medium ${getFontColorByTheme(
-				isDark,
-			)}`}
+			className={`w-full h-8 px-2 top-0 z-50 text-sm backdrop-blur-lg shadow transition select-none flex justify-between font-medium ${styles.font}`}
 		>
 			{/* Apple Icon */}
 			<div
 				className="flex justify-center items-center w-[30px] rounded relative hover:bg-gray-400"
 				onClick={() => setShowAppleIconMenu(true)}
 			>
-				<TopBarItem
-					icon={
-						<Image
-							alt=""
-							width={30}
-							height={30}
-							src={`${isDark ? '/img/icons/apple-white.png' : '/img/icons/apple-black.png'}`}
-						/>
-					}
-				/>
-				{showAppleIconMenu && <AppleIconMenu setMenuAway={() => setShowAppleIconMenu(false)} />}
+				<TopBarItem icon={<Image alt="" width={30} height={30} src={styles.appleIcon} />} />
+				{showAppleIconMenu && <AppleIconMenu setMenuAway={setShowAppleIconMenu} />}
 			</div>
 			{/* 中间填充空块 */}
 			<div className="flex-1"></div>
@@ -61,20 +57,20 @@ const TopBar = () => {
 			<div className="flex items-center justify-end h-full space-x-2">
 				{/* WIFI */}
 				<TopBarItem
-					icon={
-						isWife ? <Wifi size={16} color={getColorByTheme(isDark)} /> : <WifiOff size={16} color={getColorByTheme(isDark)} />
-					}
-					toggle={() => setIsWifi(!isWife)}
+					icon={isWife ? <Wifi size={16} color={styles.iconColor} /> : <WifiOff size={16} color={styles.iconColor} />}
+					toggle={setIsWifi}
+					val={isWife}
 				/>
 				{/* Battery */}
 				<Battery />
 				{/* Control Center */}
 				<div className="relative">
 					<TopBarItem
-						icon={<ArrowLeftRight size={16} color={getColorByTheme(isDark)} />}
-						toggle={() => setShowControlCenter(!showControlCenter)}
+						icon={<ArrowLeftRight size={16} color={styles.iconColor} />}
+						toggle={setShowControlCenter}
+						val={showControlCenter}
 					/>
-					{showControlCenter && <ControlCenter setMenuAway={() => setShowControlCenter(!showControlCenter)} />}
+					{showControlCenter && <ControlCenter setMenuAway={setShowControlCenter} />}
 				</div>
 			</div>
 		</div>

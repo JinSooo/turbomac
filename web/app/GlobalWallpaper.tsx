@@ -53,7 +53,7 @@ const GlobalWallpaper = ({ children }: { children: React.ReactNode }) => {
 		>
 			<Alert />
 			{children}
-			{isMenuAway && <ContextMenu setMenuAway={() => setIsMenuAway(false)} pagePosition={pagePosition} />}
+			{isMenuAway && <ContextMenu setMenuAway={setIsMenuAway} pagePosition={pagePosition} />}
 		</div>
 	)
 }

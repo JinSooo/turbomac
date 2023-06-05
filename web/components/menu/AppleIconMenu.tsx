@@ -6,7 +6,7 @@ import { shallow } from 'zustand/shallow'
 import Menu from './Menu'
 
 interface Props {
-	setMenuAway: () => void
+	setMenuAway: (val: boolean) => void
 }
 
 /**
@@ -17,7 +17,7 @@ const AppleIconMenu = ({ setMenuAway }: Props) => {
 
 	const contextMenuRef = useRef<HTMLDivElement>(null)
 	// 点击元素外，关闭contextmenu
-	useClickAway(() => setMenuAway(), contextMenuRef)
+	useClickAway(() => setMenuAway(false), contextMenuRef)
 
 	const handleMenuItem = (content: string) => {
 		alert(AlertType.SUCCESS, content)
@@ -26,7 +26,7 @@ const AppleIconMenu = ({ setMenuAway }: Props) => {
 	return (
 		<div
 			className="absolute text-black rounded-md font-md h-70 w-52 bg-gray-400/90 top-9 left-1"
-			onClick={() => setMenuAway()}
+			onClick={() => setMenuAway(false)}
 			ref={contextMenuRef}
 		>
 			<Menu menuConfig={appleIconMenuConfig} handleMenuItem={handleMenuItem} />

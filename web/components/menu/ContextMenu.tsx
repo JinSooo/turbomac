@@ -6,7 +6,7 @@ import { shallow } from 'zustand/shallow'
 import Menu from './Menu'
 
 interface Props {
-	setMenuAway: () => void
+	setMenuAway: (val: boolean) => void
 	pagePosition: {
 		pageX: number
 		pageY: number
@@ -21,7 +21,7 @@ const ContextMenu = ({ pagePosition, setMenuAway }: Props) => {
 
 	const contextMenuRef = useRef<HTMLDivElement>(null)
 	// 点击元素外，关闭contextmenu
-	useClickAway(() => setMenuAway(), contextMenuRef)
+	useClickAway(() => setMenuAway(false), contextMenuRef)
 
 	const handleMenuItem = (content: string) => {
 		alert(AlertType.SUCCESS, content)
@@ -31,7 +31,7 @@ const ContextMenu = ({ pagePosition, setMenuAway }: Props) => {
 		<div
 			className="absolute text-black rounded-md font-md h-70 w-52 bg-white/70"
 			style={{ left: `${pagePosition.pageX}px`, top: `${pagePosition.pageY}px` }}
-			onClick={() => setMenuAway()}
+			onClick={() => setMenuAway(false)}
 			ref={contextMenuRef}
 		>
 			<Menu menuConfig={contextMenuConfig} handleMenuItem={handleMenuItem} />

@@ -1,5 +1,4 @@
 import useThemeStore from '@/stores/theme'
-import { getBgColorByTheme } from '@/utils/theme'
 import { useEffect, useState } from 'react'
 
 /**
@@ -33,14 +32,15 @@ const Battery = () => {
 		})
 	}, [])
 
+	const styles = {
+		batteryColor: battery.charging ? 'bg-[#32d74b]/60' : isDark ? 'bg-white' : 'bg-black/40',
+	}
+
 	return (
 		<div className="flex items-center px-1 rounded hover:bg-gray-400">
 			{/* 电池 */}
 			<div className="flex items-center w-[20px] h-3 border border-[#99979d] p-[1.5px]">
-				<div
-					className={`h-full rounded-sm ${battery.charging ? 'bg-[#32d74b]/60' : getBgColorByTheme(isDark)}`}
-					style={{ width: `${Math.floor(16 * battery.level)}px` }}
-				/>
+				<div className={`h-full rounded-sm ${styles.batteryColor}`} style={{ width: `${Math.floor(16 * battery.level)}px` }} />
 			</div>
 			{/* 电池头部 */}
 			<div className="w-0 h-0 m-0 border-[3px] border-l-solid  border-l-[#99979d] border-y-transparent border-r-transparent"></div>

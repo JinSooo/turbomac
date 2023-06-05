@@ -6,8 +6,8 @@ const WifiItem = () => {
 	const [isWifi, setIsWifi] = useControlStore(state => [state.isWife, state.setIsWifi])
 	const style = {
 		bgColor: isWifi ? 'bg-primary' : 'bg-gray-300',
-		wifiColor: getColorByTheme(isWifi),
 		content: isWifi ? 'On' : 'Off',
+		wifiColor: getColorByTheme(isWifi),
 	}
 
 	return (
