@@ -6,6 +6,18 @@
 
 ### Dark Mode -> Light Mode 会导致控制中心消失
 
+当点击 mode 时，title 会更新，导致 mode 窗口失效
+
+```typescript
+<ModeItem
+	title={isDark ? 'Dark Mode' : 'Light Mode'}
+	isDark={isDark}
+	val={val}
+	setVal={setVal}
+	Icon={val ? <Moon size={16} /> : <Sun size={16} />}
+/>
+```
+
 ## Knowledge
 
 ### 调节 Web 亮度(Brightness)
@@ -15,6 +27,7 @@ filter: brightness(100%);
 ```
 
 ### TopBar 背景滤镜
+
 backdrop-filter CSS 属性可以让你为一个元素后面区域添加图形效果（如模糊或颜色偏移）。因为它适用于元素背后的所有元素，为了看到效果，必须使元素或其背景至少部分透明。
 
 ```css

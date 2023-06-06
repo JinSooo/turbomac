@@ -47,7 +47,7 @@ const ControlCenter = ({ setMenuAway }: Props) => {
 	return (
 		<div
 			ref={ref}
-			className={`absolute p-3 select-none rounded-[13px] w-80 h-72 top-7 -left-72 flex flex-col shadow ${styles.bgColor}`}
+			className={`absolute p-3 select-none rounded-[13px] w-80 h-72 top-7 -left-44 flex flex-col shadow ${styles.bgColor}`}
 		>
 			<div className="flex w-full">
 				{/* SmallItem */}

@@ -133,6 +133,9 @@ importers:
       daisyui:
         specifier: ^3.0.2
         version: 3.0.2(postcss@8.4.24)
+      dayjs:
+        specifier: ^1.11.8
+        version: 1.11.8
       eslint:
         specifier: 8.42.0
         version: 8.42.0

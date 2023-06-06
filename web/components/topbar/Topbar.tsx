@@ -10,7 +10,8 @@ import { ArrowLeftRight, Wifi, WifiOff } from 'lucide-react'
 import Battery from './Battery'
 import { getColorByTheme, getFontColorByTheme } from '@/utils/theme'
 import ControlCenter from './controlCenter/ControlCenter'
-import { useMemo } from 'react'
+import { Suspense, useMemo } from 'react'
+import DateTimer from './DateTimer'
 
 /**
  * 顶部栏
@@ -45,7 +46,7 @@ const TopBar = () => {
 
 	return (
 		<div
-			className={`w-full h-8 px-2 top-0 z-50 text-sm backdrop-blur-lg shadow transition select-none flex justify-between font-medium ${styles.font}`}
+			className={`w-full h-8 px-2 top-0 z-50 text-sm backdrop-blur-xl shadow transition select-none flex justify-between font-medium ${styles.font}`}
 		>
 			{/* Apple Icon */}
 			<div
@@ -76,6 +77,7 @@ const TopBar = () => {
 					/>
 					{showControlCenter && <ControlCenter setMenuAway={setShowControlCenter} />}
 				</div>
+				<DateTimer isDark={isDark} />
 			</div>
 		</div>
 	)
