@@ -40,3 +40,15 @@ button {
 .slider .rangeslider .rangeslider__handle::after {
   @apply hidden;
 }
+
+/* Dock */
+/* tooltip 只有在hover的时候显示 */
+.dock li .tooltip {
+  @apply hidden;
+  top: calc(-100% - 5px);
+}
+
+.dock li:hover .tooltip {
+  @apply block;
+  box-shadow: hsla(0deg, 0%, 0%, 20%) 0px 1px 5px 2px, 0 0 0 0 white;
+}

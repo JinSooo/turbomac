@@ -1,6 +1,4 @@
-import { getFontColorByTheme } from '@/utils/theme'
 import { Moon, Sun } from 'lucide-react'
-import { useMemo } from 'react'
 import ModeItem from './ModeItem'
 
 // 这个组件就是切换 Light/Dark的，所以不需要isDark判断了
@@ -12,9 +10,8 @@ interface Props {
 
 const ThemeMode = ({ isDark, val, setVal }: Props) => (
 	<ModeItem
-		// TODO：title改变会导致窗口关闭，失效，目前先改变为静态的
-		// title={isDark ? 'Dark Mode' : 'Light Mode'}
-		title={'Theme Mode'}
+		// TODO: 控制中心窗口会莫名其妙关闭，失效
+		title={isDark ? 'Dark Mode' : 'Light Mode'}
 		isDark={isDark}
 		val={val}
 		setVal={setVal}

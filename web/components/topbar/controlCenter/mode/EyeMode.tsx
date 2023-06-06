@@ -22,7 +22,7 @@ const EyeMode = ({ isDark, val, setVal, brightness, setBrightness }: Props) => {
 
 	return (
 		<ModeItem
-			title={isDark ? 'Dark Mode' : 'Light Mode'}
+			title={'Eye Mode'}
 			isDark={isDark}
 			val={val}
 			setVal={handleClick}
