@@ -2,7 +2,9 @@
 
 ## TODO
 
-将 Alert 组件更新多多消息型，类型 AntD 那种
+### 将 Alert 组件更新多多消息型，类型 AntD 那种
+
+### Dark Mode -> Light Mode 会导致控制中心消失
 
 ## Knowledge
 

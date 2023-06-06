@@ -10,6 +10,7 @@ import { ArrowLeftRight, Wifi, WifiOff } from 'lucide-react'
 import Battery from './Battery'
 import { getColorByTheme, getFontColorByTheme } from '@/utils/theme'
 import ControlCenter from './controlCenter/ControlCenter'
+import { useMemo } from 'react'
 
 /**
  * 顶部栏
@@ -20,10 +21,10 @@ const TopBar = () => {
 		shallow,
 	)
 
-	const [isWife, setIsWifi, showAppleIconMenu, setShowAppleIconMenu, showControlCenter, setShowControlCenter] = useControlStore(
+	const [wifi, setWifi, showAppleIconMenu, setShowAppleIconMenu, showControlCenter, setShowControlCenter] = useControlStore(
 		state => [
-			state.isWife,
-			state.setIsWifi,
+			state.wifi,
+			state.setWifi,
 			state.showAppleIconMenu,
 			state.setShowAppleIconMenu,
 			state.showControlCenter,
@@ -33,11 +34,14 @@ const TopBar = () => {
 	)
 
 	// 样式抽离复用
-	const styles = {
-		appleIcon: isDark ? '/img/icons/apple-white.png' : '/img/icons/apple-black.png',
-		iconColor: getColorByTheme(isDark),
-		font: getFontColorByTheme(isDark),
-	}
+	const styles = useMemo(
+		() => ({
+			appleIcon: isDark ? '/img/icons/apple-white.png' : '/img/icons/apple-black.png',
+			iconColor: getColorByTheme(isDark),
+			font: getFontColorByTheme(isDark),
+		}),
+		[isDark],
+	)
 
 	return (
 		<div
@@ -57,9 +61,9 @@ const TopBar = () => {
 			<div className="flex items-center justify-end h-full space-x-2">
 				{/* WIFI */}
 				<TopBarItem
-					icon={isWife ? <Wifi size={16} color={styles.iconColor} /> : <WifiOff size={16} color={styles.iconColor} />}
-					toggle={setIsWifi}
-					val={isWife}
+					icon={wifi ? <Wifi size={16} color={styles.iconColor} /> : <WifiOff size={16} color={styles.iconColor} />}
+					toggle={setWifi}
+					val={wifi}
 				/>
 				{/* Battery */}
 				<Battery />

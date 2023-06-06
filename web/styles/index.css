@@ -21,3 +21,22 @@ html, body, #root {
 button {
   cursor: url('../public/cursors/normal-select.svg'), auto;
 }
+
+
+ /* Slider，重写 react-rangeslider 样式 */
+.slider .rangeslider {
+  @apply bg-gray-300 w-full h-7 shadow-none m-0;
+}
+
+.slider .rangeslider .rangeslider__fill {
+  @apply bg-gray-100 shadow-none rounded-none;
+}
+
+.slider .rangeslider .rangeslider__handle {
+  @apply border border-gray-300 outline-none h-7 w-7 text-white bg-white;
+  box-shadow: -3px 0px 8px 0px rgba(17, 17, 17, 0.15);
+}
+
+.slider .rangeslider .rangeslider__handle::after {
+  @apply hidden;
+}
