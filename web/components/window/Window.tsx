@@ -64,6 +64,7 @@ const Window = ({ app, children }: Props) => {
 	}
 	useDraggable(draggableRef, options)
 
+	const isMaximize = maximizeApp === app.id
 	const isMinimize = minimizeApps.includes(app.id)
 	const isFocus = focusApp === app.id
 
@@ -86,6 +87,16 @@ const Window = ({ app, children }: Props) => {
 		})
 		setFocusApp(app.id)
 	}, [])
+
+  // 当app为最大化时，拖拽window导致resize同时更新box的宽高
+	useEffect(() => {
+		if (isMaximize) {
+			setBox({
+				width: winWidth,
+				height: winHeight,
+			})
+		}
+	}, [winWidth, winHeight, isMaximize])
 
 	return (
 		<motion.div
