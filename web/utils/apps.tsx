@@ -1,3 +1,4 @@
+import FaceTime from '@/components/apps/FaceTime'
 import LinkWeb from '@/components/apps/LinkWeb'
 import { AppsData } from '@/types'
 
@@ -39,6 +40,7 @@ const appsData: AppsData[] = [
 		id: 'facetime',
 		title: 'FaceTime',
 		img: 'img/icons/facetime.png',
+    content: <FaceTime />
 	},
 	{
 		id: 'email',

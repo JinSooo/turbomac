@@ -28,7 +28,7 @@ const DockItem = ({ app, mouseX, dockSize, dockMag, isAppOpen }: Props) => {
 			removeMinimizeApp(app.id)
 			return
 		} else {
-			openApp(app.id)
+			if (app.content) openApp(app.id)
 		}
 	}
 
@@ -47,7 +47,7 @@ const DockItem = ({ app, mouseX, dockSize, dockMag, isAppOpen }: Props) => {
 				draggable={false}
 				style={{ width: width, willChange: 'width' }}
 			></motion.img>
-      {/* 当app缩小后，会在图标下面显示一个点 */}
+			{/* 当app缩小后，会在图标下面显示一个点 */}
 			<div className={`w-1 h-1 m-0 rounded-full bg-white/40 ${isAppOpen(app.id) ? '' : 'invisible'}`}></div>
 		</li>
 	)
