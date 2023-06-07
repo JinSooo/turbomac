@@ -49,6 +49,9 @@ const appsData: AppsData[] = [
 		id: 'github',
 		title: 'Github',
 		img: '/img/icons/github.png',
+		width: 860,
+		height: 560,
+		content: <LinkWeb src="https://jinso.top" title="Serendipity" />,
 	},
 ]
 

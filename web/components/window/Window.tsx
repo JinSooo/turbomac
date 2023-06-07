@@ -17,7 +17,11 @@ interface Props {
 }
 
 // 用于focusApp时不同层级的大小
-const ZIndex = 15
+const defaultConfig = {
+	zIndex: 15,
+	width: 540,
+	height: 450,
+}
 
 const Window = ({ app, children }: Props) => {
 	const [maximizeApp, setMaximizeApp, focusApp, setFocusApp, minimizeApps, addMinimizeApp, closeApp] = useAppsStore(state => [
@@ -29,6 +33,9 @@ const Window = ({ app, children }: Props) => {
 		state.addMinimizeApp,
 		state.closeApp,
 	])
+	// 配置app默认值
+	app.width = app.width ?? defaultConfig.width
+	app.height = app.height ?? defaultConfig.height
 	// 获取窗口大小
 	const { winWidth, winHeight } = useWindowSize()
 	// window大小
@@ -38,7 +45,7 @@ const Window = ({ app, children }: Props) => {
 	})
 	// window位置
 	const [position, setPosition] = useState({
-    // 随机显示一个位置
+		// 随机显示一个位置
 		x: maximizeApp ? 0 : winWidth * (Math.random() * 0.2 + 0.05),
 		y: maximizeApp ? 0 : winHeight * (Math.random() * 0.2 + 0.05),
 	})
@@ -68,14 +75,14 @@ const Window = ({ app, children }: Props) => {
 	}
 	const handleMinimize = () => {
 		setMaximizeApp('')
-		setBox({ width: Math.min(winWidth, app.width ?? 540), height: Math.min(winHeight, app.height ?? 450) })
+		setBox({ width: Math.min(winWidth, app.width!), height: Math.min(winHeight, app.height!) })
 		setPosition(lastPosition!)
 	}
 
 	useEffect(() => {
 		setBox({
-			width: maximizeApp ? winWidth : Math.min(winWidth, app.width ?? 540),
-			height: maximizeApp ? winHeight : Math.min(winHeight, app.height ?? 450),
+			width: maximizeApp ? winWidth : Math.min(winWidth, app.width!),
+			height: maximizeApp ? winHeight : Math.min(winHeight, app.height!),
 		})
 		setFocusApp(app.id)
 	}, [])
@@ -87,10 +94,8 @@ const Window = ({ app, children }: Props) => {
 			style={{
 				width: `${box.width}px`,
 				height: `${box.height}px`,
-        // 层级压制
-				zIndex: maximizeApp ? 100 : isFocus ? ZIndex + 1 : ZIndex,
-        // 缩小隐藏
-				visibility: isMinimize ? 'hidden' : 'visible',
+				zIndex: maximizeApp ? 100 : isFocus ? defaultConfig.zIndex + 1 : defaultConfig.zIndex, // 层级压制
+				visibility: isMinimize ? 'hidden' : 'visible', // 缩小隐藏
 			}}
 			onClick={() => setFocusApp(app.id)}
 			transition={{ type: 'spring', stiffness: 100, damping: 20 }}

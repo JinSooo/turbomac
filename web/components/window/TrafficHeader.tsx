@@ -1,5 +1,6 @@
 import { Maximize2, Minimize2, Minus, X } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
+import TrafficLight from './TrafficLight'
 
 interface Props {
 	maximizeApp: string
@@ -9,9 +10,12 @@ interface Props {
 	closeApp: () => void
 }
 
+/**
+ * Mac Window 头部
+ */
 const TrafficHeader = ({ maximizeApp, handleMaximize, handleMinimize, addMinimizeApp, closeApp }: Props) => {
 	const trafficLightRef = useRef<HTMLDivElement>(null)
-  // 是否移入header
+	// 是否移入header
 	const [enter, setEnter] = useState(false)
 
 	useEffect(() => {
@@ -30,22 +34,14 @@ const TrafficHeader = ({ maximizeApp, handleMaximize, handleMinimize, addMinimiz
 	return (
 		<div className="bg-transparent absolute">
 			<div ref={trafficLightRef} className="traffic-lights relative flex space-x-2 w-[60px] ml-1">
-        {/* Close */}
-				<div className="bg-red-500 w-[13px] h-[13px] mt-2 rounded-full ml-l flex-center" onClick={closeApp}>
-					{enter && <X size={10} color="black" strokeWidth={3} />}
-				</div>
-        {/* Minimize */}
-				<div className="bg-yellow-500 w-[13px] h-[13px] mt-2 rounded-full ml-l flex-center" onClick={addMinimizeApp}>
-					{enter && <Minus size={10} color="black" strokeWidth={3} />}
-				</div>
-        {/* maximize */}
-				<div className="bg-green-500 w-[13px] h-[13px] mt-2 rounded-full ml-l flex-center" onClick={maximizeApp ? handleMinimize : handleMaximize}>
-					{enter && (maximizeApp ? (
-						<Minimize2 size={10} color="black" strokeWidth={2} />
-					) : (
-						<Maximize2 size={10} color="black" strokeWidth={2} />
-					))}
-				</div>
+				<TrafficLight enter={enter} color="bg-red-500" onClick={closeApp} Icon={X} />
+				<TrafficLight enter={enter} color="bg-yellow-500" onClick={addMinimizeApp} Icon={Minus} />
+				<TrafficLight
+					enter={enter}
+					color="bg-green-500"
+					onClick={maximizeApp ? handleMinimize : handleMaximize}
+					Icon={maximizeApp ? Minimize2 : Maximize2}
+				/>
 			</div>
 		</div>
 	)
