@@ -1,3 +1,4 @@
+import LinkWeb from '@/components/apps/LinkWeb'
 import { AppsData } from '@/types'
 
 const appsData: AppsData[] = [
@@ -10,6 +11,9 @@ const appsData: AppsData[] = [
 		id: 'vscode',
 		title: 'VSCode',
 		img: '/img/icons/vscode.png',
+		width: 860,
+		height: 560,
+		content: <LinkWeb src="https://github1s.com/ljq0226/turbomac" title="VSCode" />,
 	},
 	{
 		id: 'chatgpt',

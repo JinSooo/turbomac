@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@neodrag/react": "^2.0.3",
     "@rooks/use-raf": "^4.11.2",
     "@types/node": "20.2.5",
     "@types/react-dom": "18.2.4",

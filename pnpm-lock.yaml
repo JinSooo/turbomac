@@ -118,6 +118,9 @@ importers:
 
   web:
     dependencies:
+      '@neodrag/react':
+        specifier: ^2.0.3
+        version: 2.0.3
       '@rooks/use-raf':
         specifier: ^4.11.2
         version: 4.11.2
@@ -997,6 +1000,10 @@ packages:
     transitivePeerDependencies:
       - encoding
       - supports-color
+    dev: false
+
+  /@neodrag/react@2.0.3:
+    resolution: {integrity: sha512-VtubEZzyB+mmi6bZYKay/UmMuWsG2rsiAV7+O7iLN4YXKOOa7TxJT3alnLRqkntII8X48h2Hs7jSjosqxuAxDQ==}
     dev: false
 
   /@nestjs/cli@9.0.0:

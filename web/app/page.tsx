@@ -1,3 +1,5 @@
+import WindowApp from '@/components/window/WindowApp'
+
 export default function Home() {
-	return <div>Turbo</div>
+	return <WindowApp />
 }

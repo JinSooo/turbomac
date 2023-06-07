@@ -7,7 +7,7 @@ import { useState } from 'react'
 import DockItem from './DockItem'
 
 const Dock = () => {
-	const [maximizeApp, displayApps, openApp] = useAppsStore(state => [state.maximizeApp, state.displayApps, state.openApp])
+	const [maximizeApp, displayApps] = useAppsStore(state => [state.maximizeApp, state.displayApps])
 	const [dock, setDock] = useState({
 		size: 50,
 		mag: 2,

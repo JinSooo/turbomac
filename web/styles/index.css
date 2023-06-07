@@ -52,3 +52,8 @@ button {
   @apply block;
   box-shadow: hsla(0deg, 0%, 0%, 20%) 0px 1px 5px 2px, 0 0 0 0 white;
 }
+
+/* Link */
+.appLink{
+  cursor: url('../public/cursors/normal-select.svg'), auto; 
+}
