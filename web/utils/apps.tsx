@@ -7,6 +7,9 @@ const appsData: AppsData[] = [
 		id: 'launchpad',
 		title: 'Launchpad',
 		img: '/img/icons/launchpad.png',
+		width: 860,
+		height: 560,
+		content: <LinkWeb src="https://jinso.top" title="Serendipity" />,
 	},
 	{
 		id: 'vscode',
@@ -40,7 +43,7 @@ const appsData: AppsData[] = [
 		id: 'facetime',
 		title: 'FaceTime',
 		img: 'img/icons/facetime.png',
-    content: <FaceTime />
+		content: <FaceTime />,
 	},
 	{
 		id: 'email',
@@ -51,9 +54,7 @@ const appsData: AppsData[] = [
 		id: 'github',
 		title: 'Github',
 		img: '/img/icons/github.png',
-		width: 860,
-		height: 560,
-		content: <LinkWeb src="https://jinso.top" title="Serendipity" />,
+		link: 'https://github.com/JinSooo/turbomac',
 	},
 ]
 

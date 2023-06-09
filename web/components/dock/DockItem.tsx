@@ -1,4 +1,5 @@
 import useDockHoverAnimation from '@/hooks/useDockHoverAnimation'
+import useAlertStore, { AlertType } from '@/stores/alert'
 import useAppsStore from '@/stores/apps'
 import { AppsData } from '@/types'
 import { MotionValue, motion } from 'framer-motion'
@@ -13,6 +14,7 @@ interface Props {
 }
 
 const DockItem = ({ app, mouseX, dockSize, dockMag, isAppOpen }: Props) => {
+	const [alert] = useAlertStore(state => [state.alert])
 	const [minimizeApps, openApp, removeMinimizeApp] = useAppsStore(state => [
 		state.minimizeApps,
 		state.openApp,
@@ -23,6 +25,18 @@ const DockItem = ({ app, mouseX, dockSize, dockMag, isAppOpen }: Props) => {
 	const { width } = useDockHoverAnimation(mouseX, imgRef, dockSize, dockMag)
 
 	const handleClick = () => {
+		// email
+		if (app.id === 'email') {
+			alert(AlertType.INFO, 'Email: kimjinso@qq.com')
+			return
+		}
+
+		if (app.link) {
+			// 如果存在link直接跳转结束
+			window.open(app.link)
+			return
+		}
+
 		const isMinimize = minimizeApps.includes(app.id)
 		if (isMinimize) {
 			removeMinimizeApp(app.id)
