@@ -1,5 +1,6 @@
 import FaceTime from '@/components/apps/FaceTime'
 import LinkWeb from '@/components/apps/LinkWeb'
+import Terminal from '@/components/apps/Terminal/Terminal'
 import { AppsData } from '@/types'
 
 const appsData: AppsData[] = [
@@ -28,6 +29,9 @@ const appsData: AppsData[] = [
 		id: 'terminal',
 		title: 'Terminal',
 		img: '/img/icons/terminal.png',
+		width: 600,
+		height: 540,
+		content: <Terminal />,
 	},
 	{
 		id: 'turbochat',

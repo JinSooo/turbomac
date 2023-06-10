@@ -17,7 +17,7 @@ interface Action {
 }
 
 const useThemeStore = create<State & Action>(set => ({
-	isDark: false,
+	isDark: true,
 	brightness: 70,
 	sound: 80,
 	color: '#5388fc',
