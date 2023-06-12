@@ -1,7 +1,15 @@
 import { useEffect, useRef, useState } from 'react'
-import { CommandNotFound, Row } from './util'
+import { AppNotFound, CommandNotFound, Row } from './util'
+import useAppsStore from '@/stores/apps'
+import appsData from '@/utils/apps'
+
+interface CommandList {
+	[key: string]: { (): void } | { (arg: string): void }
+}
 
 const Terminal = () => {
+	const [openApp, closeApp] = useAppsStore(state => [state.openApp, state.closeApp])
+
 	// 标识指令id
 	const currentId = useRef(0)
 	// 当前命令行input的实例（子组件的映射）
@@ -30,6 +38,41 @@ const Terminal = () => {
 		setCommandOffset(0)
 	}
 
+	// 指令
+	// 打开app
+	const open = (arg: string = '') => {
+		// 确保app存在
+		if (!appsData.find(app => app.id === arg)) {
+			addContent(<AppNotFound command={arg} />)
+			return
+		}
+
+		openApp(arg)
+		addContent(
+			<pre>
+				<code>Open {arg} ...</code>
+			</pre>,
+		)
+	}
+	// 打开app
+	const close = (arg: string = '') => {
+		// 确保app存在
+		if (!appsData.find(app => app.id === arg)) {
+			addContent(<AppNotFound command={arg} />)
+			return
+		}
+
+		closeApp(arg)
+		addContent(
+			<pre>
+				<code>Close {arg} ...</code>
+			</pre>,
+		)
+	}
+
+	// 指令集
+	const commandList: CommandList = { open, close }
+
 	// 执行指令
 	const executeCommand = (e: React.KeyboardEvent<HTMLInputElement>) => {
 		const [command, arg] = inputRef.current!.value.trim().split(' ')
@@ -42,9 +85,14 @@ const Terminal = () => {
 			// 当前input已经执行，需被禁用
 			inputRef.current!.disabled = true
 
-			// 去除空命令（不断按回车）
+			// 命令不为空加入（防止不断按空格）
 			if (command) {
 				addCommandHistory(inputRef.current!.value)
+			}
+
+			if (command && Object.keys(commandList).includes(command)) {
+				commandList[command](arg)
+			} else {
 				addContent(<CommandNotFound command={command} />)
 			}
 

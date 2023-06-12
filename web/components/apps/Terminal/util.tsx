@@ -43,4 +43,14 @@ const CommandNotFound: React.FC<{ command: string }> = ({ command }) => {
 	)
 }
 
-export { Row, CommandNotFound }
+const AppNotFound: React.FC<{ command: string }> = ({ command }) => {
+	return (
+		<pre>
+			<code className="text-error">
+				cmd: app not found: <span className="text-warning">{command}</span>
+			</code>
+		</pre>
+	)
+}
+
+export { Row, CommandNotFound, AppNotFound }
