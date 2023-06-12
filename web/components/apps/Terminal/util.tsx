@@ -1,9 +1,11 @@
+import { Ref, forwardRef } from 'react'
+
 interface Props {
 	id: number
-	onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void
+	executeCommand: (e: React.KeyboardEvent<HTMLInputElement>) => void
 }
 
-const Row = ({ id, onKeyDown }: Props) => {
+const RowWithRef = ({ id, executeCommand }: Props, ref: Ref<HTMLInputElement>) => {
 	return (
 		<>
 			<pre>
@@ -16,18 +18,20 @@ const Row = ({ id, onKeyDown }: Props) => {
 			<pre data-prefix="$" className="flex">
 				<code className="flex-1">
 					<input
+						ref={ref}
 						type="text"
-						id={`terminal-input-${id}`}
 						autoComplete="off"
 						autoFocus={true}
 						className="w-full bg-transparent outline-none"
-						onKeyDown={onKeyDown}
+						onKeyDown={e => executeCommand(e)}
 					/>
 				</code>
 			</pre>
 		</>
 	)
 }
+
+const Row = forwardRef(RowWithRef)
 
 const CommandNotFound: React.FC<{ command: string }> = ({ command }) => {
 	return (
