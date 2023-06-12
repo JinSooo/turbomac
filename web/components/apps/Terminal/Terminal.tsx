@@ -21,6 +21,10 @@ const Terminal = () => {
 	// 用于上下调节命令历史记录的偏移量
 	const [commandOffset, setCommandOffset] = useState<number>(0)
 
+	const inputFocus = () => {
+		inputRef.current!.focus()
+	}
+
 	const addContent = (c: JSX.Element) => {
 		setContent(content => [...content, c])
 	}
@@ -73,6 +77,12 @@ const Terminal = () => {
 	// 指令集
 	const commandList: CommandList = { open, close }
 
+	// tab 指令补全
+	const matchCommand = (command: string) => {
+		const matched = Object.keys(commandList).find(c => c.startsWith(command))
+		return matched
+	}
+
 	// 执行指令
 	const executeCommand = (e: React.KeyboardEvent<HTMLInputElement>) => {
 		const [command, arg] = inputRef.current!.value.trim().split(' ')
@@ -81,6 +91,14 @@ const Terminal = () => {
 			arrowUp()
 		} else if (e.key === 'ArrowDown') {
 			arrowDown()
+		} else if (e.key === 'Tab') {
+			e.preventDefault()
+
+			const matched = matchCommand(command)
+			if (matched) {
+				inputRef.current!.value = matched + ' '
+				inputFocus()
+			}
 		} else if (e.key === 'Enter') {
 			// 当前input已经执行，需被禁用
 			inputRef.current!.disabled = true
@@ -122,14 +140,11 @@ const Terminal = () => {
 	}, [])
 
 	return (
-		<div className="mockup-code h-full" style={{ fontFamily: 'Melon, monospace', fontSize: '14px' }}>
-			<div className="mockup-code">
-				<pre>
-					<code>Welcome to TueboMac,type `help` to get started,have fun!</code>
-				</pre>
-				{/* <Row id={1} /> */}
-				{...content}
-			</div>
+		<div className="mockup-code h-full pt-8" style={{ fontFamily: 'Melon, monospace', fontSize: '14px' }} onClick={inputFocus}>
+			<pre>
+				<code>Welcome to TueboMac,type `help` to get started,have fun!</code>
+			</pre>
+			{...content}
 		</div>
 	)
 }
