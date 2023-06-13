@@ -77,3 +77,37 @@ WindowApp 组件就是渲染需要展示的 app，难点在于 Window 组件的�
 - 放大缩小所对应的逻辑
 
 具体的就不展示了，整体来说，其实还是很简单的。
+
+## App Terminal 模块的逻辑
+
+对于终端内容命令的展示，通过一个 JSX 数组存储并渲染的
+
+```typescript
+const [content, setContent] = useState<JSX.Element[]>([])
+
+// 渲染
+{ ...content }
+```
+
+还有两个变量用于历史记录的查找
+
+- commandHistory: 存储执行的命令
+- commandOffset: 跳转历史记录的偏移量(-commandHistory.length, 0)
+
+命令交互的就不说了，说一下命令的执行
+通过监听键盘事件来判断不同的情况
+
+- ArrowUp: 查找上一条历史记录
+- ArrowDown: 查找下一条历史记录
+- Tab: command 补全
+- Enter: 执行命令
+
+上面三个很简单，主要说一下执行命令的逻辑
+
+补充一个变量，用于记录已经注册的指令
+
+```typescript
+const commandList: CommandList = { open, close, clear }
+```
+
+都已经到执行命令的内部了，所以可以先将命令存入历史记录中，然后就找到指定的命令去执行即可
