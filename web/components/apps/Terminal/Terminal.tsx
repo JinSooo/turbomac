@@ -42,6 +42,7 @@ const Terminal = () => {
 		setCommandOffset(0)
 	}
 
+	// TODO: Terminal整体架构已经完成了，还需要补充的就是一些额外的指令，等有空再去加吧
 	// 指令
 	// 打开app
 	const open = (arg: string = '') => {
@@ -73,10 +74,12 @@ const Terminal = () => {
 			</pre>,
 		)
 	}
-
+	// 清空
+	const clear = (arg: string = '') => {
+		setContent([])
+	}
 	// 指令集
-	const commandList: CommandList = { open, close }
-
+	const commandList: CommandList = { open, close, clear }
 	// tab 指令补全
 	const matchCommand = (command: string) => {
 		const matched = Object.keys(commandList).find(c => c.startsWith(command))
