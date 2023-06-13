@@ -63,3 +63,9 @@ button {
 .mockup-code::before {
 	display: none;
 }
+
+/* input */
+.input {
+	color: black;
+	background-color: white;
+}

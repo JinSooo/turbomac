@@ -10,13 +10,22 @@ export class AuthService {
 
   // local 验证（用户名、密码验证）
   async validateUser(username: string, password: string) {
-    const user = await this.userService.findByUsername(username);
+    let user = await this.userService.findByUsername(username);
 
+    // 如果用户不存在，转为注册
+    if (!user) {
+      user = await this.register({ username, password });
+      delete user.password;
+      return user;
+    }
+
+    // 验证密码
     const verification = await verify(user.password, password);
     if (user && verification) {
       delete user.password;
       return user;
     }
+
     return null;
   }
 
