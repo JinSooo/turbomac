@@ -1,6 +1,7 @@
 import useDockHoverAnimation from '@/hooks/useDockHoverAnimation'
 import useAlertStore, { AlertType } from '@/stores/alert'
 import useAppsStore from '@/stores/apps'
+import useUserStore from '@/stores/user'
 import { AppsData } from '@/types'
 import { MotionValue, motion } from 'framer-motion'
 import { useRef } from 'react'
@@ -14,7 +15,8 @@ interface Props {
 }
 
 const DockItem = ({ app, mouseX, dockSize, dockMag, isAppOpen }: Props) => {
-	const [alert] = useAlertStore(state => [state.alert])
+	const alert = useAlertStore(state => state.alert)
+	const token = useUserStore(state => state.token)
 	const [minimizeApps, openApp, removeMinimizeApp] = useAppsStore(state => [
 		state.minimizeApps,
 		state.openApp,
@@ -28,6 +30,9 @@ const DockItem = ({ app, mouseX, dockSize, dockMag, isAppOpen }: Props) => {
 		// email
 		if (app.id === 'email') {
 			alert(AlertType.INFO, 'Email: kimjinso@qq.com')
+			return
+		} else if (app.id === 'turbochat') {
+			token ? openApp('turbochat') : openApp('login')
 			return
 		}
 

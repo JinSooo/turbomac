@@ -2,6 +2,7 @@ import FaceTime from '@/components/apps/FaceTime'
 import LinkWeb from '@/components/apps/LinkWeb'
 import Terminal from '@/components/apps/Terminal/Terminal'
 import Login from '@/components/apps/TurboChat/Login'
+import TurboChat from '@/components/apps/TurboChat/TurboChat'
 import { AppsData } from '@/types'
 
 const appsData: AppsData[] = [
@@ -38,6 +39,9 @@ const appsData: AppsData[] = [
 		id: 'turbochat',
 		title: 'TurboChat',
 		img: '/img/icons/turbochat.png',
+		width: 969,
+		height: 640,
+		content: <TurboChat />,
 	},
 	{
 		id: 'login',

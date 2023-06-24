@@ -1,3 +1,4 @@
+import { UserInfo } from '@/stores/user'
 import { post } from '@/utils/http'
 
 interface AuthInfo {
@@ -7,13 +8,7 @@ interface AuthInfo {
 
 interface LoginData {
 	token: string
-	userInfo: {
-		id: string
-		username: string
-		avatar: string
-		role: string
-		createAt?: Date
-	}
+	userInfo: UserInfo
 }
 
 export function Login({ username, password }: AuthInfo) {

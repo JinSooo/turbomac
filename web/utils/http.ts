@@ -21,7 +21,6 @@ const get = async <T>(api: string, option?: RequestInit): Promise<Res<T>> => {
 }
 
 const post = async <T>(api: string, data: any, option?: RequestInit): Promise<Res<T>> => {
-	debugger
 	const token = localStorage.getItem('token')
 	const res = await fetch(`${HOST}${api}`, {
 		method: 'POST',

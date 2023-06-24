@@ -1,10 +1,14 @@
 import { Login } from '@/api/login'
 import useAlertStore, { AlertType } from '@/stores/alert'
+import useAppsStore from '@/stores/apps'
+import useUserStore from '@/stores/user'
 import Image from 'next/image'
 import { ChangeEvent, useState } from 'react'
 
 const LoginWindow = () => {
 	const alert = useAlertStore(state => state.alert)
+	const [openApp, closeApp] = useAppsStore(state => [state.openApp, state.closeApp])
+	const [setToken, setUserInfo] = useUserStore(state => [state.setToken, state.setUserInfo])
 	const [authInfo, setAuthInfo] = useState({
 		username: '',
 		password: '',
@@ -20,7 +24,15 @@ const LoginWindow = () => {
 		const res = await Login({ username: authInfo.username, password: authInfo.password })
 		console.log(res)
 		if (res.code === 200) {
+			setToken(res.data.token)
+			setUserInfo(res.data.userInfo)
+			localStorage.setItem('turbomac_token', res.data.token)
+			localStorage.setItem('turbomac_userInfo', JSON.stringify(res.data.userInfo))
 			alert(AlertType.SUCCESS, 'login success')
+			closeApp('login')
+			openApp('turbomac')
+		} else {
+			alert(AlertType.ERROR, 'Unauthorized')
 		}
 	}
 	return (
