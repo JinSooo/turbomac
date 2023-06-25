@@ -3,7 +3,7 @@ import { create } from 'zustand'
 
 interface State {
 	token: string
-	userInfo?: UserInfo
+	userInfo: UserInfo | null
 }
 
 interface Action {
@@ -12,8 +12,8 @@ interface Action {
 }
 
 const useUserStore = create<State & Action>(set => ({
-	token: localStorage.getItem('turbomac_token') ?? '',
-	userInfo: JSON.parse(localStorage.getItem('turbomac_userInfo') ?? '') as UserInfo,
+	token: '',
+	userInfo: null,
 	setToken: token => set(() => ({ token: token })),
 	setUserInfo: userInfo => set(() => ({ userInfo: userInfo })),
 }))

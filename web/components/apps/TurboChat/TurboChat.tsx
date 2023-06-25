@@ -10,11 +10,13 @@ import Window from './window/Window'
 
 const TurboChat = () => {
 	const [isDark] = useThemeStore(state => [state.isDark])
-	const [userInfo] = useUserStore(state => [state.userInfo])
+	const [userInfo, setUserInfo, setToken] = useUserStore(state => [state.userInfo, state.setUserInfo, state.setToken])
 	const [socket, setSocket] = useSocketStore(state => [state.socket, state.setSocket])
 	const [setMessages, setActiveUsers] = useChatStore(state => [state.setMessages, state.setActiveUsers])
 
 	useEffect(() => {
+		// setToken(JSON.parse(localStorage.getItem('turbomac_token') as string))
+		// setUserInfo(JSON.parse(localStorage.getItem('turbomac_userInfo') as string))
 		const host = 'http://localhost:8081'
 		const newSocket = io(host, {
 			query: {

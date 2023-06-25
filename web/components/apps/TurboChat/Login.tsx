@@ -30,7 +30,7 @@ const LoginWindow = () => {
 			localStorage.setItem('turbomac_userInfo', JSON.stringify(res.data.userInfo))
 			alert(AlertType.SUCCESS, 'login success')
 			closeApp('login')
-			openApp('turbomac')
+			openApp('turbochat')
 		} else {
 			alert(AlertType.ERROR, 'Unauthorized')
 		}

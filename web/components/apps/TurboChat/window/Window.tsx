@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import Header from './Header'
 import Input from './message/Input'
+import Communication from './message/Communication'
 
 interface Props {
 	isDark: boolean
@@ -15,7 +16,10 @@ const Window = ({ isDark }: Props) => {
 	return (
 		<div ref={windowRef} className={`flex flex-col flex-1 select-none ${styles.bg}`}>
 			<Header isDark={isDark} />
-			<Input isDark={isDark} />
+			<div className={`flex flex-col flex-1 overflow-hidden pl-3 pr-2 ${styles.bg}`}>
+				<Communication isDark={isDark} />
+				<Input isDark={isDark} />
+			</div>
 		</div>
 	)
 }

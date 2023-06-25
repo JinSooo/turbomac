@@ -13,7 +13,7 @@ const Input = ({ isDark }: Props) => {
 	const userInfo = useUserStore(state => state.userInfo)
 	const page = useChatStore(state => state.page)
 	const [sentFlag, setSentFlag] = useChatStore(state => [state.sentFlag, state.setSentFlag])
-	const [content, setContent] = useState('123')
+	const [content, setContent] = useState('')
 	const [isHover, setIsHover] = useState(false)
 	const styles = {
 		bg: isDark ? 'bg-[#1a1a1a]' : 'bg-[#f2f2f2]',

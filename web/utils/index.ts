@@ -10,3 +10,16 @@ export const base64ToBlob = (base64: string) => {
 
 	return new Blob([uInt8Array], { type: contentType })
 }
+
+export function debounce<T extends (...args: any[]) => any>(func: T, wait: number): (...args: Parameters<T>) => void {
+	let timer: any = null
+	return (...args) => {
+		if (timer) {
+			clearTimeout(timer)
+			timer = null
+		}
+		timer = setTimeout(() => {
+			func(...args)
+		}, wait)
+	}
+}

@@ -40,17 +40,17 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   handleConnection(client: Socket) {
-    // client.join(this.defaultGroup);
+    client.join(this.defaultGroup);
     // 通知client在线
-    // this.getOnlineUsers(client);
+    this.getOnlineUsers(client);
     // 发送给client之前的消息
-    // this.getMessages(client, { page: 1 });
+    this.getMessages(client, { page: 1 });
   }
 
   handleDisconnect(client: Socket) {
-    // client.leave(this.defaultGroup);
-    // 通知client离线
-    // this.getOnlineUsers(client);
+    client.leave(this.defaultGroup);
+    // 通知client离线;
+    this.getOnlineUsers(client);
   }
 
   @SubscribeMessage('onlineUsers')

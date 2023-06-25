@@ -5,7 +5,7 @@ export interface Message {
 	content: string
 	type: string
 	createAt?: Date
-	size: string
+	size?: string
 	user?: {
 		username: string
 		avatar: string
