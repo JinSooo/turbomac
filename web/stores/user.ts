@@ -1,12 +1,5 @@
+import { UserInfo } from '@/types'
 import { create } from 'zustand'
-
-export interface UserInfo {
-	id: string
-	username: string
-	avatar: string
-	role: string
-	createAt?: Date
-}
 
 interface State {
 	token: string

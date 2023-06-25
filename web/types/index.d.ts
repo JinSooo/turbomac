@@ -1,3 +1,5 @@
 export { WallpaperData } from './configs/wallpaper'
 export { MenuItem } from './configs/menu'
 export { AppsData } from './configs/apps'
+export { UserInfo, ActiveUser } from './configs/user'
+export { Message } from './configs/message'

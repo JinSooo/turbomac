@@ -14,7 +14,7 @@ model User {
   id       String    @id @default(uuid())
   username String    @default("visitor")
   password String
-  avator   String    @default("")
+  avatar   String    @default("")
   role     String    @default("user")
   Message  Message[]
   createAt DateTime  @default(now())
