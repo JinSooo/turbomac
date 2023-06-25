@@ -26,7 +26,7 @@ const Icon: React.FC<Props> = ({ isDark, name, desc, onClick }) => {
 			onMouseEnter={() => setIsHover(true)}
 			onMouseLeave={() => setIsHover(false)}
 		>
-			<Image src={styles.img} className="w-fit h-fit" width={15} height={15} alt="chatappicon" />
+			<Image src={styles.img} width={20} height={20} alt="chatappicon" />
 			<div
 				className={`absolute invisible rounded-sm top-12 ${styles.bg} `}
 				style={{ width: `${desc ? desc.length * 1.1 : 0}rem` }}

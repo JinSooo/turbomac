@@ -2,7 +2,7 @@ import useChatStore from '@/stores/chat'
 import { useClickAway } from 'ahooks'
 import { motion } from 'framer-motion'
 import { useRef, useState } from 'react'
-import Icon from './Icon'
+import Icon from '../icon/Icon'
 
 interface Props {
 	isDark: boolean
