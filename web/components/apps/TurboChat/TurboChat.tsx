@@ -3,7 +3,10 @@ import useSocketStore from '@/stores/socket'
 import useThemeStore from '@/stores/theme'
 import useUserStore from '@/stores/user'
 import { useEffect } from 'react'
-import { io } from 'socket.io-client'
+import io from 'socket.io-client'
+import SideBar from './sidebar/SideBar'
+import ChatList from './chatlist/ChatList'
+import Window from './window/Window'
 
 const TurboChat = () => {
 	const [isDark] = useThemeStore(state => [state.isDark])
@@ -12,7 +15,7 @@ const TurboChat = () => {
 	const [setMessages, setActiveUsers] = useChatStore(state => [state.setMessages, state.setActiveUsers])
 
 	useEffect(() => {
-		const host = 'http://localhost:8080'
+		const host = 'http://localhost:8081'
 		const newSocket = io(host, {
 			query: {
 				id: userInfo?.id,
@@ -35,7 +38,13 @@ const TurboChat = () => {
 		}
 	}, [])
 
-	return <div className="flex h-full backdrop-blur-sm bg-gray-800">TurboChat</div>
+	return (
+		<div className="flex h-full backdrop-blur-sm">
+			<SideBar isDark={isDark} />
+			<ChatList isDark={isDark} />
+			{socket && <Window isDark={isDark} />}
+		</div>
+	)
 	// return <div>TurboChat</div>
 }
 

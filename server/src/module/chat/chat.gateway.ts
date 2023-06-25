@@ -22,7 +22,11 @@ const PUBLIC_ROOM = 'TurboRoom';
 // 一次拿取消息的最大数量
 const PAGINATION = 15;
 
-@WebSocketGateway(8081)
+@WebSocketGateway(8081, {
+  cors: {
+    origin: '*',
+  },
+})
 export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer() server: Server;
   defaultGroup: string;
@@ -36,17 +40,17 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   handleConnection(client: Socket) {
-    client.join(this.defaultGroup);
+    // client.join(this.defaultGroup);
     // 通知client在线
-    this.getOnlineUsers(client);
+    // this.getOnlineUsers(client);
     // 发送给client之前的消息
-    this.getMessages(client, { page: 1 });
+    // this.getMessages(client, { page: 1 });
   }
 
   handleDisconnect(client: Socket) {
-    client.leave(this.defaultGroup);
+    // client.leave(this.defaultGroup);
     // 通知client离线
-    this.getOnlineUsers(client);
+    // this.getOnlineUsers(client);
   }
 
   @SubscribeMessage('onlineUsers')
