@@ -23,7 +23,9 @@ const Input = ({ isDark }: Props) => {
 
 	const handleEnter = (e: React.KeyboardEvent) => {
 		if (e.key === 'Enter') {
+			// 阻止与onChange事件相冲突
 			e.preventDefault()
+
 			socket &&
 				socket.emit('createMessage', {
 					page,

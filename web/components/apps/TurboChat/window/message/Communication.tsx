@@ -2,7 +2,6 @@ import useChatStore from '@/stores/chat'
 import useSocketStore from '@/stores/socket'
 import { debounce } from '@/utils'
 import { useEffect, useRef, useState } from 'react'
-import LoadingSpinner from './LoadingSpinner'
 import MessageRender from './MessageRender'
 
 interface Props {
@@ -11,15 +10,15 @@ interface Props {
 
 const Communication = ({ isDark }: Props) => {
 	const socket = useSocketStore(state => state.socket)
-	const [messages, setMessages, page, setPage, sentFlag] = useChatStore(state => [
+	const [messages, setMessages, page, setPage, sentFlag, maxPage] = useChatStore(state => [
 		state.messages,
 		state.setMessages,
 		state.page,
 		state.setPage,
 		state.sentFlag,
+		state.maxPage,
 	])
 	const chatListRef = useRef<HTMLDivElement>(null)
-	const [lastChangedIndex, setLastChangedIndex] = useState(0)
 	const [prevScrollTop, setPrevScrollTop] = useState(0)
 	const [loading, setLoading] = useState(false)
 	const [isHover, setIsHover] = useState(false)
@@ -33,11 +32,12 @@ const Communication = ({ isDark }: Props) => {
 			setPrevScrollTop(chatList.scrollHeight)
 
 			// 当滚动到顶部时，请求更新消息
-			if (chatList.scrollTop < 50) {
+			if (chatList.scrollTop < 50 && page < maxPage) {
 				setLoading(true)
+				// 呈现等待动画
 				setTimeout(() => {
 					setPage(page + 1)
-				}, 600)
+				}, 300)
 			}
 		}
 	}, 300)
@@ -57,18 +57,20 @@ const Communication = ({ isDark }: Props) => {
 	useEffect(() => {
 		if (chatListRef.current) {
 			const chatList = chatListRef.current
+			console.log(messages, chatList.scrollHeight, chatList.scrollTop, chatList.scrollWidth)
 			if (chatList.scrollHeight - chatList.scrollTop - chatList.scrollWidth < 100) {
 				chatList.scrollTop = 9999
 			}
 		}
 	}, [messages])
 
-	// TODO: ???
+	// 页面更新，即向上请求数据，更新messages
 	useEffect(() => {
 		if (chatListRef.current && page > 0) {
 			const chatList = chatListRef.current
 			socket && socket.emit('getMessages', { page })
 			setLoading(false)
+			// 保证数据更新后，定位到原本的数据位置
 			setTimeout(() => {
 				chatList.scrollTop = chatList.scrollHeight - prevScrollTop
 			}, 100)
@@ -86,14 +88,12 @@ const Communication = ({ isDark }: Props) => {
 			onScroll={handleScroll}
 		>
 			<div className="flex flex-col w-full">
-				<LoadingSpinner loading={loading} />
-				<MessageRender
-					isDark={isDark}
-					messages={messages}
-					setMessages={setMessages}
-					lastChangedIndex={lastChangedIndex}
-					setLastChangedIndex={setLastChangedIndex}
-				/>
+				{loading && (
+					<div className="flex-center mt-2">
+						<span className="loading loading-dots loading-md"></span>
+					</div>
+				)}
+				<MessageRender isDark={isDark} messages={messages} />
 			</div>
 		</div>
 	)

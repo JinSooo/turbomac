@@ -10,13 +10,15 @@ import Window from './window/Window'
 
 const TurboChat = () => {
 	const [isDark] = useThemeStore(state => [state.isDark])
-	const [userInfo, setUserInfo, setToken] = useUserStore(state => [state.userInfo, state.setUserInfo, state.setToken])
+	const [userInfo] = useUserStore(state => [state.userInfo])
 	const [socket, setSocket] = useSocketStore(state => [state.socket, state.setSocket])
-	const [setMessages, setActiveUsers] = useChatStore(state => [state.setMessages, state.setActiveUsers])
+	const [setMessages, setActiveUsers, setMaxPage] = useChatStore(state => [
+		state.setMessages,
+		state.setActiveUsers,
+		state.setMaxPage,
+	])
 
 	useEffect(() => {
-		// setToken(JSON.parse(localStorage.getItem('turbomac_token') as string))
-		// setUserInfo(JSON.parse(localStorage.getItem('turbomac_userInfo') as string))
 		const host = 'http://localhost:8081'
 		const newSocket = io(host, {
 			query: {
@@ -32,7 +34,10 @@ const TurboChat = () => {
 			data && setActiveUsers(data)
 		})
 		newSocket.on('getMessages', data => {
-			data && setMessages(data)
+			if (data) {
+				setMessages(data.messages)
+				setMaxPage(data.maxPage)
+			}
 		})
 
 		return () => {
@@ -47,7 +52,6 @@ const TurboChat = () => {
 			{socket && <Window isDark={isDark} />}
 		</div>
 	)
-	// return <div>TurboChat</div>
 }
 
 export default TurboChat

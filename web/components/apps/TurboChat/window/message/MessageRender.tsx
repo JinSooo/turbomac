@@ -2,32 +2,22 @@ import useUserStore from '@/stores/user'
 import { Message } from '@/types'
 import Text from '../messagetype/Text'
 import { AnimatePresence, motion } from 'framer-motion'
-import Image from 'next/image'
 import TimeRender from './TimeRender'
 import MessageInfo from './MessageInfo'
 
 interface Props {
 	isDark: boolean
-	lastChangedIndex: number
-	setLastChangedIndex: (lastChangedIndex: number) => void
 	messages: Message[]
-	setMessages: (messages: Message[]) => void
 }
 
-const MessageRender = ({ messages, isDark, setMessages, lastChangedIndex, setLastChangedIndex }: Props) => {
+const MessageRender = ({ messages, isDark }: Props) => {
 	const userInfo = useUserStore(state => state.userInfo)
-	const animatingMessages = messages.slice(lastChangedIndex)
 
 	const renderMessage = (message: Message) => {
 		switch (message.type) {
 			case 'text':
 				return <Text message={message} isSelf={message.userId === userInfo?.id} />
 		}
-	}
-	const removeMessage = (e: React.MouseEvent, message: Message) => {
-		e.preventDefault()
-		setLastChangedIndex(messages.indexOf(message))
-		setMessages(messages.filter(msg => msg.id !== message.id))
 	}
 
 	return (
@@ -44,13 +34,12 @@ const MessageRender = ({ messages, isDark, setMessages, lastChangedIndex, setLas
 							layout: {
 								type: 'spring',
 								bounce: 0.4,
-								duration: lastChangedIndex ? animatingMessages.indexOf(message) * 0.15 + 0.85 : 1,
+								duration: 1,
 							},
 						}}
 						key={message.id}
-						id={`message-${message.id}`}
 					>
-						<TimeRender message={message} messages={messages} index={index} />
+						<TimeRender prevMessage={index > 0 ? messages[index - 1] : null} message={message} />
 						<MessageInfo isDark={isDark} isSelf={message.userId === userInfo?.id} message={message}>
 							{renderMessage(message)}
 						</MessageInfo>

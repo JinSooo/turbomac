@@ -7,11 +7,8 @@ interface Props {
 
 const Text = ({ message, isSelf }: Props) => {
 	return (
-		<div
-			className={`${isSelf ? 'bg-blue-500 ml-auto' : 'bg-gray-500 mr-auto'} px-3 py-1 text-left rounded-xl select-none`}
-			style={{ WebkitTapHighlightColor: 'transparent' }}
-		>
-			{message.content}
+		<div className={`chat ${isSelf ? 'chat-end' : 'chat-start'}`}>
+			<div className={`chat-bubble select-none ${isSelf ? 'chat-bubble-info' : 'chat-bubble-success'}`}>{message.content}</div>
 		</div>
 	)
 }

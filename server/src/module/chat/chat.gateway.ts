@@ -107,8 +107,14 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       take,
     });
 
-    client.emit('getMessages', messages);
-    client.to(this.defaultGroup).emit('getMessages', messages);
+    client.emit('getMessages', {
+      messages: messages,
+      maxPage: Math.ceil(length / this.pageSize),
+    });
+    client.to(this.defaultGroup).emit('getMessages', {
+      messages: messages,
+      maxPage: Math.ceil(length / this.pageSize),
+    });
   }
 
   @SubscribeMessage('getMessages')
@@ -134,7 +140,10 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       take,
     });
 
-    client.emit('getMessages', messages);
+    client.emit('getMessages', {
+      messages: messages,
+      maxPage: Math.ceil(length / this.pageSize),
+    });
   }
 
   // 获取当前在线人员信息
