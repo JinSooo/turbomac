@@ -12,10 +12,11 @@ const TurboChat = () => {
 	const [isDark] = useThemeStore(state => [state.isDark])
 	const [userInfo] = useUserStore(state => [state.userInfo])
 	const [socket, setSocket] = useSocketStore(state => [state.socket, state.setSocket])
-	const [setMessages, setActiveUsers, setMaxPage] = useChatStore(state => [
+	const [messages, setMessages, setActiveUsers, setIsAll] = useChatStore(state => [
+		state.messages,
 		state.setMessages,
 		state.setActiveUsers,
-		state.setMaxPage,
+		state.setIsAll,
 	])
 
 	useEffect(() => {
@@ -31,13 +32,20 @@ const TurboChat = () => {
 		newSocket.on('connect', () => {})
 		newSocket.on('disconnect', () => {})
 		newSocket.on('onlineUsers', data => {
-			data && setActiveUsers(data)
+			setActiveUsers(data)
 		})
 		newSocket.on('getMessages', data => {
-			if (data) {
-				setMessages(data.messages)
-				setMaxPage(data.maxPage)
+			// TODO: 暂时先这样处理
+			// 15为一次获取的消息个数
+			if (data.length < 15) setIsAll(true)
+			else {
+				messages.unshift(...data)
+				setMessages(messages)
 			}
+		})
+		newSocket.on('addMessage', data => {
+			messages.push(data)
+			setMessages(messages)
 		})
 
 		return () => {

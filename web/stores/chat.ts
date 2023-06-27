@@ -4,31 +4,27 @@ import { create } from 'zustand'
 interface State {
 	messages: Message[]
 	activeUsers: ActiveUser[]
-	page: number
-	maxPage: number
 	sentFlag: boolean
+	isAll: boolean
 }
 
 interface Action {
 	setSentFlag: (sentFlag: boolean) => void
 	setMessages: (messages: Message[]) => void
 	setActiveUsers: (activeUsers: ActiveUser[]) => void
-	setPage: (page: number) => void
-	setMaxPage: (maxPage: number) => void
+	setIsAll: (isAll: boolean) => void
 }
 
 const useChatStore = create<State & Action>(set => ({
 	messages: [],
 	activeUsers: [],
-	page: 1,
-	maxPage: 1,
 	sentFlag: false,
+	isAll: false,
 
 	setActiveUsers: activeUsers => set(() => ({ activeUsers: activeUsers })),
 	setMessages: messages => set(() => ({ messages: messages })),
 	setSentFlag: sentFlag => set(() => ({ sentFlag: sentFlag })),
-	setPage: page => set(() => ({ page: page })),
-	setMaxPage: maxPage => set(() => ({ maxPage: maxPage })),
+	setIsAll: isAll => set(() => ({ isAll: isAll })),
 }))
 
 export default useChatStore

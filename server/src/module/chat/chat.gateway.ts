@@ -44,7 +44,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     // 通知client在线
     this.getOnlineUsers(client);
     // 发送给client之前的消息
-    this.getMessages(client, { page: 1 });
+    this.getMessages(client, { count: 0 });
   }
 
   handleDisconnect(client: Socket) {
@@ -71,16 +71,9 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       type,
       message,
       size,
-      page,
-    }: {
-      userId: string;
-      type: string;
-      message: string;
-      size: string;
-      page: number;
-    },
+    }: { userId: string; type: string; message: string; size: string },
   ) {
-    await this.prismaService.message.create({
+    const newMessage = (await this.prismaService.message.create({
       data: {
         userId,
         roomId: this.defaultGroup,
@@ -88,44 +81,34 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
         type,
         size,
       },
-    });
-
-    const length = await this.prismaService.message.count();
-    const take = page * this.pageSize;
-    const skip = length - take < 0 ? 0 : length - take;
-    const messages = await this.prismaService.message.findMany({
-      include: {
-        user: {
-          select: {
-            username: true,
-            avatar: true,
-            role: true,
-          },
-        },
+    })) as any;
+    const user = await this.prismaService.user.findUnique({
+      where: {
+        id: userId,
       },
-      skip,
-      take,
+      select: {
+        username: true,
+        avatar: true,
+        role: true,
+      },
     });
+    newMessage.user = user;
 
-    client.emit('getMessages', {
-      messages: messages,
-      maxPage: Math.ceil(length / this.pageSize),
-    });
-    client.to(this.defaultGroup).emit('getMessages', {
-      messages: messages,
-      maxPage: Math.ceil(length / this.pageSize),
-    });
+    client.emit('addMessage', newMessage);
+    client.to(this.defaultGroup).emit('addMessage', newMessage);
   }
 
   @SubscribeMessage('getMessages')
   async getMessages(
     @ConnectedSocket() client: Socket,
-    @MessageBody() { page }: { page: number },
+    @MessageBody() { count }: { count: number },
   ) {
     // 根据page进行偏移
     const length = await this.prismaService.message.count();
-    const take = page * this.pageSize;
-    const skip = length - take < 0 ? 0 : length - take;
+    const skip =
+      length - count < this.pageSize ? 0 : length - count - this.pageSize;
+    const take =
+      length - count < this.pageSize ? length - count : this.pageSize;
     const messages = await this.prismaService.message.findMany({
       include: {
         user: {
@@ -140,18 +123,16 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       take,
     });
 
-    client.emit('getMessages', {
-      messages: messages,
-      maxPage: Math.ceil(length / this.pageSize),
-    });
+    client.emit('getMessages', messages);
   }
 
   // 获取当前在线人员信息
   async getActiveUser() {
     const sockets = await this.server.fetchSockets();
     const userIdArr = sockets.map((socket) => socket.handshake.query.id);
-    const uniqueUserIdArr = Array.from(new Set(userIdArr));
-    const realUser = uniqueUserIdArr.filter((user) => user !== undefined);
+    const realUser = Array.from(new Set(userIdArr)).filter(
+      (user) => user !== undefined,
+    );
     const res: UserInfo[] = [];
 
     for (const userId of realUser) {

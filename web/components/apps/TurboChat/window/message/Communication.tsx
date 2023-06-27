@@ -10,14 +10,7 @@ interface Props {
 
 const Communication = ({ isDark }: Props) => {
 	const socket = useSocketStore(state => state.socket)
-	const [messages, setMessages, page, setPage, sentFlag, maxPage] = useChatStore(state => [
-		state.messages,
-		state.setMessages,
-		state.page,
-		state.setPage,
-		state.sentFlag,
-		state.maxPage,
-	])
+	const [messages, sentFlag, isAll] = useChatStore(state => [state.messages, state.sentFlag, state.isAll])
 	const chatListRef = useRef<HTMLDivElement>(null)
 	const [prevScrollTop, setPrevScrollTop] = useState(0)
 	const [loading, setLoading] = useState(false)
@@ -26,18 +19,29 @@ const Communication = ({ isDark }: Props) => {
 		border: isDark ? 'border-[#232323]' : 'border-[#e9e9e9]',
 	}
 
+	// 页面更新，即向上请求数据，更新messages
+	const getMessages = () => {
+		if (chatListRef.current) {
+			const chatList = chatListRef.current
+			socket && socket.emit('getMessages', { count: messages.length })
+			setLoading(false)
+			// 保证数据更新后，定位到原本的数据位置
+			setTimeout(() => {
+				chatList.scrollTop = chatList.scrollHeight - prevScrollTop
+			}, 100)
+		}
+	}
+
 	const handleScroll = debounce(() => {
 		if (chatListRef.current) {
 			const chatList = chatListRef.current
 			setPrevScrollTop(chatList.scrollHeight)
 
 			// 当滚动到顶部时，请求更新消息
-			if (chatList.scrollTop < 50 && page < maxPage) {
+			if (chatList.scrollTop < 50 && !isAll) {
 				setLoading(true)
 				// 呈现等待动画
-				setTimeout(() => {
-					setPage(page + 1)
-				}, 300)
+				setTimeout(() => getMessages(), 300)
 			}
 		}
 	}, 300)
@@ -49,33 +53,9 @@ const Communication = ({ isDark }: Props) => {
 			// 等message更新后
 			setTimeout(() => {
 				chatList.scrollTop = 9999
-			}, 100)
+			}, 150)
 		}
 	}, [sentFlag])
-
-	// TODO: ???
-	useEffect(() => {
-		if (chatListRef.current) {
-			const chatList = chatListRef.current
-			console.log(messages, chatList.scrollHeight, chatList.scrollTop, chatList.scrollWidth)
-			if (chatList.scrollHeight - chatList.scrollTop - chatList.scrollWidth < 100) {
-				chatList.scrollTop = 9999
-			}
-		}
-	}, [messages])
-
-	// 页面更新，即向上请求数据，更新messages
-	useEffect(() => {
-		if (chatListRef.current && page > 0) {
-			const chatList = chatListRef.current
-			socket && socket.emit('getMessages', { page })
-			setLoading(false)
-			// 保证数据更新后，定位到原本的数据位置
-			setTimeout(() => {
-				chatList.scrollTop = chatList.scrollHeight - prevScrollTop
-			}, 100)
-		}
-	}, [page])
 
 	return (
 		<div

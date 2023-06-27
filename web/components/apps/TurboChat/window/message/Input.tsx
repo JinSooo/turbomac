@@ -11,7 +11,6 @@ interface Props {
 const Input = ({ isDark }: Props) => {
 	const socket = useSocketStore(state => state.socket)
 	const userInfo = useUserStore(state => state.userInfo)
-	const page = useChatStore(state => state.page)
 	const [sentFlag, setSentFlag] = useChatStore(state => [state.sentFlag, state.setSentFlag])
 	const [content, setContent] = useState('')
 	const [isHover, setIsHover] = useState(false)
@@ -28,7 +27,6 @@ const Input = ({ isDark }: Props) => {
 
 			socket &&
 				socket.emit('createMessage', {
-					page,
 					message: content,
 					userId: userInfo?.id,
 				})
