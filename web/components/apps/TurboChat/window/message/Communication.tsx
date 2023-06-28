@@ -53,7 +53,7 @@ const Communication = ({ isDark }: Props) => {
 			// 等message更新后
 			setTimeout(() => {
 				chatList.scrollTop = 9999
-			}, 150)
+			}, 250)
 		}
 	}, [sentFlag])
 
@@ -63,7 +63,7 @@ const Communication = ({ isDark }: Props) => {
 			const chatList = chatListRef.current
 			setTimeout(() => {
 				chatList.scrollTop = 9999
-			}, 150)
+			}, 250)
 		}
 	}, [])
 
