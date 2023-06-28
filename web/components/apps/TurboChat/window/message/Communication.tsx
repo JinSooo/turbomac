@@ -57,6 +57,20 @@ const Communication = ({ isDark }: Props) => {
 		}
 	}, [sentFlag])
 
+	// 一开始滚动到末尾
+	useEffect(() => {
+		if (chatListRef.current) {
+			const chatList = chatListRef.current
+			setTimeout(() => {
+				chatList.scrollTop = 9999
+			}, 150)
+		}
+	}, [])
+
+	/**
+	 * TODO: 滚动的判定问题，对方是否应该在更新消息时自动滚动（但如果对方在看某条消息，滚动会导致问题）
+	 */
+
 	return (
 		<div
 			ref={chatListRef}
