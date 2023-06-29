@@ -6,7 +6,7 @@ export const MaxSize = 4 * 1000 * 1000;
 
 export const fileType = {
   image: ['gif', 'png', 'jpg', 'jpeg', 'bmp', 'webp'],
-  video: ['mp4', 'webm'],
+  video: ['mp4', 'webm', 'mpeg'],
   audio: ['mp3', 'wav', 'ogg'],
   document: ['pdf', 'docs', 'md', 'doc', 'txt', 'ppt', 'markdown', 'msword'],
 };

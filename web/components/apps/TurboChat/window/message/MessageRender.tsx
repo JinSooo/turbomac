@@ -6,6 +6,8 @@ import TimeRender from './TimeRender'
 import MessageInfo from './MessageInfo'
 import ImageType from '../messagetype/ImageType'
 import DocumentType from '../messagetype/DocumentType'
+import VideoType from '../messagetype/VideoType'
+import AudioType from '../messagetype/AudioType'
 
 interface Props {
 	isDark: boolean
@@ -19,10 +21,14 @@ const MessageRender = ({ messages, isDark }: Props) => {
 		switch (message.type) {
 			case 'text':
 				return <TextType message={message} isSelf={message.userId === userInfo?.id} />
-			case 'image':
-				return <ImageType message={message} />
 			case 'document':
 				return <DocumentType message={message} isDark={isDark} />
+			case 'image':
+				return <ImageType message={message} />
+			case 'video':
+				return <VideoType message={message} />
+			case 'audio':
+				return <AudioType message={message} />
 		}
 	}
 
