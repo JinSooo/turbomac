@@ -4,6 +4,7 @@ import { useRef, useState } from 'react'
 import Image from 'next/image'
 import { UserInfo } from '@/types'
 import useAlertStore, { AlertType } from '@/stores/alert'
+import { Upload } from '@/api/upload'
 
 interface Props {
 	isDark: boolean
@@ -30,15 +31,27 @@ const FileUpload = ({ isDark, name = 'file', desc = '文件', userInfo }: Props)
 	const handleFileClick = () => {
 		fileRef.current?.click()
 	}
-	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
 		const fileList = e.target.files
-		if (fileList) {
+		console.log(fileList)
+		if (fileList?.length) {
 			const file = fileList[0]
 			if (file.size > 4000000) {
 				alert(AlertType.WARNING, '您没有权限上传大于 4MB 的文件')
 				return
 			}
-			alert(AlertType.SUCCESS, '上传成功')
+
+			const res = await Upload(file)
+			if (res.code === 200) {
+				socket &&
+					socket.emit('createMessage', {
+						userId: userInfo.id,
+						type: res.data.type,
+						size: res.data.size,
+						message: res.data.url,
+					})
+				setSentFlag(!sentFlag)
+			}
 		}
 	}
 

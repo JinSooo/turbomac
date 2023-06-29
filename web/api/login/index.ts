@@ -1,4 +1,4 @@
-import { UserInfo } from '@/stores/user'
+import { UserInfo } from '@/types'
 import { post } from '@/utils/http'
 
 interface AuthInfo {

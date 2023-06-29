@@ -8,7 +8,7 @@ export const fileType = {
   image: ['gif', 'png', 'jpg', 'jpeg', 'bmp', 'webp'],
   video: ['mp4', 'webm'],
   audio: ['mp3', 'wav', 'ogg'],
-  document: ['pdf', 'docs', 'md', 'doc', 'txt', 'ppt', 'markdown'],
+  document: ['pdf', 'docs', 'md', 'doc', 'txt', 'ppt', 'markdown', 'msword'],
 };
 
 const convertToRegExp = (fileType: FileType) => {

@@ -1,7 +1,6 @@
 import { UploadService } from './upload.service';
 import {
   Controller,
-  HttpStatus,
   ParseFilePipeBuilder,
   Post,
   UploadedFile,
@@ -29,7 +28,7 @@ export class UploadController {
     return {
       type,
       url: filePath,
-      size: file.size,
+      size: file.size.toString(),
     };
   }
 }

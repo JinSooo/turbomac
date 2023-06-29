@@ -5,7 +5,7 @@ interface Props {
 	isSelf: boolean
 }
 
-const Text = ({ message, isSelf }: Props) => {
+const TextType = ({ message, isSelf }: Props) => {
 	return (
 		<div className={`chat ${isSelf ? 'chat-end' : 'chat-start'}`}>
 			<div className={`chat-bubble select-none ${isSelf ? 'chat-bubble-info' : 'chat-bubble-success'}`}>{message.content}</div>
@@ -13,4 +13,4 @@ const Text = ({ message, isSelf }: Props) => {
 	)
 }
 
-export default Text
+export default TextType

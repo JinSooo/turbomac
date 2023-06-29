@@ -1,9 +1,11 @@
 import useUserStore from '@/stores/user'
 import { Message } from '@/types'
-import Text from '../messagetype/Text'
+import TextType from '../messagetype/TextType'
 import { AnimatePresence, motion } from 'framer-motion'
 import TimeRender from './TimeRender'
 import MessageInfo from './MessageInfo'
+import ImageType from '../messagetype/ImageType'
+import DocumentType from '../messagetype/DocumentType'
 
 interface Props {
 	isDark: boolean
@@ -16,7 +18,11 @@ const MessageRender = ({ messages, isDark }: Props) => {
 	const renderMessage = (message: Message) => {
 		switch (message.type) {
 			case 'text':
-				return <Text message={message} isSelf={message.userId === userInfo?.id} />
+				return <TextType message={message} isSelf={message.userId === userInfo?.id} />
+			case 'image':
+				return <ImageType message={message} />
+			case 'document':
+				return <DocumentType message={message} isDark={isDark} />
 		}
 	}
 

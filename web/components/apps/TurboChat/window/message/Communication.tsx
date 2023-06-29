@@ -65,6 +65,7 @@ const Communication = ({ isDark }: Props) => {
 				chatList.scrollTop = 9999
 			}, 250)
 		}
+		console.log(messages)
 	}, [])
 
 	/**

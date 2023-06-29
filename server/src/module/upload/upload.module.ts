@@ -3,7 +3,6 @@ import { UploadController } from './upload.controller';
 import { UploadService } from './upload.service';
 import { MulterModule } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { extname } from 'path';
 import config from 'config/index.config';
 
 @Module({
@@ -14,7 +13,7 @@ import config from 'config/index.config';
         filename: (_, file, callback) => {
           const uniqueSuffix =
             Date.now() + '-' + Math.round(Math.random() * 1e9) + '-';
-          callback(null, uniqueSuffix + file.originalname);
+          callback(null, uniqueSuffix + decodeURI(file.originalname));
         },
       }),
     }),

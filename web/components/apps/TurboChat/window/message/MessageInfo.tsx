@@ -13,7 +13,7 @@ const MessageInfo = ({ isDark, isSelf, message, children }: Props) => {
 		<div className={`p-[3px] flex space-x-2 ${isSelf ? 'justify-end' : ''}`}>
 			{/* 对方头像 */}
 			{!isSelf && (
-				<div className="flex-center">
+				<div className="mt-4">
 					<Image className="rounded-full" src={'/img/ui/avatar.jpg'} width={45} height={45} alt="qq" />
 				</div>
 			)}
@@ -27,7 +27,7 @@ const MessageInfo = ({ isDark, isSelf, message, children }: Props) => {
 			</div>
 			{/* 我方头像 */}
 			{isSelf && (
-				<div className="flex-center">
+				<div className="mt-4">
 					<Image className="rounded-full" src={'/img/ui/good.jpg'} width={45} height={45} alt="qq" />
 				</div>
 			)}

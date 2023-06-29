@@ -6,7 +6,7 @@ interface Res<T> {
 
 const HOST = 'http://localhost:8080'
 
-const get = async <T>(api: string, option?: RequestInit): Promise<Res<T>> => {
+export const get = async <T>(api: string, option?: RequestInit): Promise<Res<T>> => {
 	const token = localStorage.getItem('token')
 	const res = await fetch(`${HOST}${api}`, {
 		method: 'GET',
@@ -20,8 +20,8 @@ const get = async <T>(api: string, option?: RequestInit): Promise<Res<T>> => {
 	return await res.json()
 }
 
-const post = async <T>(api: string, data: any, option?: RequestInit): Promise<Res<T>> => {
-	const token = localStorage.getItem('token')
+export const post = async <T>(api: string, data: any, option?: RequestInit): Promise<Res<T>> => {
+	const token = localStorage.getItem('turbomac_token')
 	const res = await fetch(`${HOST}${api}`, {
 		method: 'POST',
 		headers: {
@@ -35,4 +35,19 @@ const post = async <T>(api: string, data: any, option?: RequestInit): Promise<Re
 	return await res.json()
 }
 
-export { get, post }
+export const upload = async <T>(api: string, file: File): Promise<Res<T>> => {
+	const token = localStorage.getItem('turbomac_token')
+	const formData = new FormData()
+	formData.append('file', file, encodeURI(file.name))
+
+	const res = await fetch(`${HOST}${api}`, {
+		method: 'POST',
+		headers: {
+			// 上传文件这边不需要加form-data头部，fetch会自动加
+			Authorization: token ? `Bearer ${token}` : '',
+		},
+		body: formData,
+	})
+
+	return await res.json()
+}
