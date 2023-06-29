@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 import Header from './Header'
-import Input from './input/Input'
+import Input from './Input/Input'
 import Communication from './message/Communication'
 
 interface Props {
