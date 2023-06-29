@@ -17,4 +17,10 @@ export class UploadService {
 
     return { type, filePath };
   }
+
+  formatFileSize(size: number) {
+    if (size < 1000) return `${size}B`;
+    if (size < 1000000) return `${(size / 1000).toFixed(2)}KB`;
+    return `${(size / 1000000).toFixed(2)}MB`;
+  }
 }

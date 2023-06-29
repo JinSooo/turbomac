@@ -25,10 +25,11 @@ export class UploadController {
     file: Express.Multer.File,
   ) {
     const { type, filePath } = this.uploadService.getFilePath(file);
+    const size = this.uploadService.formatFileSize(file.size);
     return {
       type,
+      size,
       url: filePath,
-      size: file.size.toString(),
     };
   }
 }
