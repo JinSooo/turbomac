@@ -39,7 +39,9 @@ const MessageRender = ({ messages, isDark }: Props) => {
 						}}
 						key={message.id}
 					>
+						{/* 时间戳 */}
 						<TimeRender prevMessage={index > 0 ? messages[index - 1] : null} message={message} />
+						{/* 单条消息 */}
 						<MessageInfo isDark={isDark} isSelf={message.userId === userInfo?.id} message={message}>
 							{renderMessage(message)}
 						</MessageInfo>

@@ -20,6 +20,7 @@ const Header = ({ isDark }: Props) => {
 		<>
 			<div className="h-6"></div>
 			<motion.header className="flex-center">
+				{/* 房间在线人数 */}
 				<div className={`text-base ml-4 font-black ${styles.font}`}>TurboRoom{` (${activeUsers.length})`}</div>
 				<div className="flex-1"></div>
 				<div className="relative flex mr-2 space-x-2">

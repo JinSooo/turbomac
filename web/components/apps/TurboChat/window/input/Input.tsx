@@ -5,6 +5,7 @@ import { useRef, useState } from 'react'
 import Icon from '../../icon/Icon'
 import { useClickAway } from 'ahooks'
 import EmojiPanel from './EmojiPanel'
+import FileUpload from './FileUpload'
 
 interface Props {
 	isDark: boolean
@@ -54,6 +55,7 @@ const Input = ({ isDark }: Props) => {
 			{/* 菜单栏 */}
 			<div className={`flex h-[40px] space-x-2 border-t mx-4 ${styles.border}`}>
 				<Icon isDark={isDark} name="smail" desc="表情" onClick={() => setShowEmojiPanel(true)} />
+				<FileUpload isDark={isDark} userInfo={userInfo!} />
 				<div className="flex-1"></div>
 				<Icon isDark={isDark} name="record" desc="历史记录" />
 			</div>

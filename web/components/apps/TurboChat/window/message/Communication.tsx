@@ -82,11 +82,13 @@ const Communication = ({ isDark }: Props) => {
 			onScroll={handleScroll}
 		>
 			<div className="flex flex-col w-full">
+				{/* 滚动加载动画 */}
 				{loading && (
 					<div className="flex-center mt-2">
 						<span className="loading loading-dots loading-md"></span>
 					</div>
 				)}
+				{/* 消息 */}
 				<MessageRender isDark={isDark} messages={messages} />
 			</div>
 		</div>
