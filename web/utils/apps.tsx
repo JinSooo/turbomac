@@ -20,7 +20,7 @@ const appsData: AppsData[] = [
 		img: '/img/icons/vscode.png',
 		width: 860,
 		height: 560,
-		content: <LinkWeb src="https://github1s.com/ljq0226/turbomac" title="VSCode" />,
+		content: <LinkWeb src="https://github1s.com/JinSooo/turbomac" title="VSCode" />,
 	},
 	{
 		id: 'chatgpt',

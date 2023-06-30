@@ -54,3 +54,62 @@ MulterModule.register({
 
 条件过滤，文件为最大值：4MB，以及一些文件格式的过滤
 上传后，获取到文件的 url 地址、类型，以及文件的大小，进行格式化（用于 web 端的显示）
+
+## 鉴权登录 逻辑
+
+需要安装下面 4 个包
+
+```bash
+pnpm add @nestjs/passport passport passport-jwt passport-local
+```
+
+### local 登录（密码登录）
+
+封装一个 strategy，通过 validate 验证是否给予通过
+
+```typescript
+async validate(username: string, password: string) {
+    const user = await this.authService.validateUser(username, password);
+    if (!user) throw new UnauthorizedException();
+    return user;
+  }
+```
+
+使用的方式
+
+```typescript
+@UseGuards(AuthGuard('local'))
+```
+
+### JWT 认证
+
+首先先配置 JWT，即密钥和对应 token 过期时间
+
+```typescript
+JwtModule.register({
+  secret: constants.jwtSecret,
+  signOptions: {
+    expiresIn: constants.jwtExpiresIn,
+  },
+});
+```
+
+接下来同理，配置 strategy
+
+```typescript
+@Injectable()
+export default class JWTStrategy extends PassportStrategy(Strategy) {
+  constructor(private prisma: PrismaService) {
+    super({
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      ignoreExpiration: false,
+      secretOrKey: constants.jwtSecret,
+    });
+  }
+
+  async validate(payload) {
+    // 这边不需要自己去判断token是否有效，如果有效我们可以直接获取到里面的数据了
+    return await this.prisma.user.findUnique({ where: { id: payload.id } });
+  }
+}
+```
