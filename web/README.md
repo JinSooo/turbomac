@@ -111,3 +111,84 @@ const commandList: CommandList = { open, close, clear }
 ```
 
 都已经到执行命令的内部了，所以可以先将命令存入历史记录中，然后就找到指定的命令去执行即可
+
+## App TurboChat 模块的逻辑
+
+### Websocket 的逻辑
+
+先说整体，当用户加入的时候，会通知更新当前在线人数，以及获取之前发送的消息（15 条）；当用户离开的时候，也一样，更新当前在线人数。
+
+- onlineUsers（当前在线人数）
+  通过前端连接时，添加的`query.id`来唯一标识每一个 client socket，通过 server 获取到所有 socket，并进行过滤查询从而获取到所有用户的信息。
+
+- getMessages（获取历史消息）
+  我是根据偏移量（即已收到的消息个数）来再获取之前的消息历史，再查找想要的记录即可
+
+  ```typescript
+  // count 为传入的偏移量，pageSize 默认为15
+  const length = await this.prismaService.message.count()
+  const skip = length - count < this.pageSize ? 0 : length - count - this.pageSize
+  const take = length - count < this.pageSize ? length - count : this.pageSize
+  ```
+
+- createMessage（发送消息）
+  创建一个 newMessage，同时通知其他用户获取该消息
+  即通过`addMessage`事件派发新的一个消息
+
+### Communication 的逻辑
+
+其实难点主要在于 Communication 模块对于消息的更新及其相应的处理
+
+- 滚动更新历史记录
+  通过监听`onScroll`事件并判断消息是否更新完判断是否接着更新
+
+  ```typescript
+  // 通过该条件判断是否更新
+  chatList.scrollTop < 50 && !isAll
+  ```
+
+- 消息渲染
+
+  - 时间渲染
+    通过判断与上一条消息间隔是否超出了 5 分钟，从而显示时间戳
+    主要时间戳有今天的上午、下午，昨天的时间，及以前的日期
+
+  - 消息渲染
+    有一个麻烦的地方就是要判断是自己发的消息还是对方发的消息，然后再显示消息的左右
+
+- 其余
+  （当然我目前的判定是有点问题的）
+  - 发送消息后自动滚动到末尾
+  - 开始滚动到末尾
+
+## Input 的逻辑
+
+### Upload 的逻辑
+
+首先重写了 storage 的存储方式
+
+```typescript
+MulterModule.register({
+	storage: diskStorage({
+		destination: config.uploadPath,
+		// 重写文件名
+		filename: (_, file, callback) => {
+			const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9) + '-'
+			callback(null, uniqueSuffix + decodeURI(file.originalname))
+		},
+	}),
+})
+```
+
+条件过滤，文件为最大值：4MB，以及一些文件格式的过滤
+上传后，获取到文件的 url 地址、类型，以及文件的大小，进行格式化（用于 web 端的显示）
+
+### Input 的逻辑
+
+通过`createMessage`事件进行消息的发送
+
+- upload（文件上传并发送）
+  通过上传文件获取到对应的 type、url、size，再通过`createMessage`将消息发送出去
+
+- 媒体的渲染
+  就通过 src 来链接到对应的资源上，并通过对应的元素渲染它即可
